@@ -1,4 +1,6 @@
-package com.taiwan.newspaper;
+package com.taiwan.realtime.news;
+
+import com.taiwan.newspaper.R;
 
 import android.os.Bundle;
 import android.app.Activity;
