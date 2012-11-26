@@ -1,26 +1,29 @@
 package com.taiwan.news.entity;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class News {
-    private int      id;
-    private String   source;
-    private String[] pictures_url;
-    private String   content;
-    private int      category_id;
-    private Date     releaseTime;
+    private int               id;
+    private String            source;
+    private ArrayList<String> pictures_url;
+    private String            content;
+    private int               category_id;
+    private Date              releaseTime;
+    private final String      categoryName;
 
     public News() {
-        this(-1, "", null, "", -1, new Date());
+        this(-1, "", null, "", -1, new Date(), "");
     }
 
-    public News(int id, String source, String[] pictures_url, String content, int category_id, Date releaseTime) {
+    public News(int id, String source, ArrayList<String> pictures_url, String content, int category_id, Date releaseTime, String categoryName) {
         this.id = id;
         this.source = source;
         this.pictures_url = pictures_url;
         this.content = content;
         this.category_id = category_id;
         this.releaseTime = releaseTime;
+        this.categoryName = categoryName;
     }
 
     public int getId() {
@@ -39,11 +42,11 @@ public class News {
         this.source = source;
     }
 
-    public String[] getPicturesUrl() {
+    public ArrayList<String> getPicturesUrl() {
         return pictures_url;
     }
 
-    public void setPicturesUrl(String[] pictures_url) {
+    public void setPicturesUrl(ArrayList<String> pictures_url) {
         this.pictures_url = pictures_url;
     }
 
@@ -69,5 +72,9 @@ public class News {
 
     public void setReleaseTime(Date time) {
         this.releaseTime = time;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
     }
 }
