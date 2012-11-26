@@ -11,12 +11,13 @@ public class News {
     private int               category_id;
     private Date              releaseTime;
     private final String      categoryName;
+    private final String      title;
 
     public News() {
-        this(-1, "", null, "", -1, new Date(), "");
+        this(-1, "", null, "", -1, new Date(), "", "");
     }
 
-    public News(int id, String source, ArrayList<String> pictures_url, String content, int category_id, Date releaseTime, String categoryName) {
+    public News(int id, String source, ArrayList<String> pictures_url, String content, int category_id, Date releaseTime, String categoryName, String title) {
         this.id = id;
         this.source = source;
         this.pictures_url = pictures_url;
@@ -24,6 +25,7 @@ public class News {
         this.category_id = category_id;
         this.releaseTime = releaseTime;
         this.categoryName = categoryName;
+        this.title = title;
     }
 
     public int getId() {
@@ -76,5 +78,9 @@ public class News {
 
     public String getCategoryName() {
         return categoryName;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

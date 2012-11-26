@@ -27,22 +27,30 @@ public class NewsAPI {
         ArrayList<String> pics = new ArrayList<String>();
         pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
         pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
-        News n1 = new News(1, "蘋果", pics, "tests tests", 1, new Date(), "娛樂");
-        News n2 = new News(2, "蘋果", pics, "tests 財經", 1, new Date(), "財經");
+        News n1 = new News(1, "蘋果", pics, "tests tests", 1, new Date(), "娛樂", "title1");
+        News n2 = new News(2, "蘋果", pics, "tests 財經", 1, new Date(), "財經", "title2");
         news.add(n1);
         news.add(n2);
         return news;
     }
 
-    public static ArrayList<News> getCateroyNews(int source, int category) {
+    public static ArrayList<News> getCateroyNews(int source, int category, int page) {
         ArrayList<News> news = new ArrayList();
         ArrayList<String> pics = new ArrayList<String>();
         pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
         pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
-        News n1 = new News(1, "蘋果", pics, "tests tests 娛樂", 1, new Date(), "娛樂");
-        News n2 = new News(2, "蘋果", pics, "tests 娛樂", 1, new Date(), "娛樂");
+        News n1 = new News(1, "蘋果", pics, "tests tests 娛樂", 1, new Date(), "娛樂", "title1");
+        News n2 = new News(2, "蘋果", pics, "tests 娛樂", 1, new Date(), "娛樂", "title2");
         news.add(n1);
         news.add(n2);
         return news;
+    }
+
+    public static News getNewsDetail(int newsId) {
+        ArrayList<String> pics = new ArrayList<String>();
+        pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
+        pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
+        News n2 = new News(2, "蘋果", pics, "tests 娛樂", 1, new Date(), "娛樂", "title2");
+        return n2;
     }
 }
