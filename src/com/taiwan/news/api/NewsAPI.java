@@ -13,7 +13,7 @@ public class NewsAPI {
     final int CHINATIME = 3;
     final int ECONOMY   = 4;
 
-    public ArrayList<Category> getSourceCategory(int source) {
+    public static ArrayList<Category> getSourceCategory(int source) {
         Category c1 = new Category(1, "娛樂");
         Category c2 = new Category(2, "財經");
         ArrayList<Category> categories = new ArrayList();
@@ -22,7 +22,7 @@ public class NewsAPI {
         return categories;
     }
 
-    public ArrayList<News> getPromotionNews(int source) {
+    public static ArrayList<News> getPromotionNews(int source) {
         ArrayList<News> news = new ArrayList();
         ArrayList<String> pics = new ArrayList<String>();
         pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
@@ -34,7 +34,7 @@ public class NewsAPI {
         return news;
     }
 
-    public ArrayList<News> getCateroyNews(int source, int category) {
+    public static ArrayList<News> getCateroyNews(int source, int category) {
         ArrayList<News> news = new ArrayList();
         ArrayList<String> pics = new ArrayList<String>();
         pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");

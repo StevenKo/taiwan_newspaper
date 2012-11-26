@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout 
+        android:layout_width="fill_parent"
+    	android:layout_height="50dp"       
+        >
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="蘋果日報"
+            android:gravity="center_vertical"
+            android:background="#AD6E00"
+            />
+    </LinearLayout>
+    
+    <Gallery android:id="@+id/gallery_page1"
+        android:layout_width="fill_parent"
+        android:layout_height="130dp"
+        android:background="#B5B5B5"
+        />
+    <ListView android:id="@+id/list_page1"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#D9D9D9"
+        ></ListView>
+    
+
+</LinearLayout>
