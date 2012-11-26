@@ -43,7 +43,7 @@ public class TabActivity extends android.app.TabActivity  {
 				.setIndicator(null,getResources().getDrawable(R.drawable.tab_eco))
 				.setContent(new Intent(this, PageAppleActivity.class)));
 
-		mTabHost.setCurrentTab(0);
+//		mTabHost.setCurrentTab(0);
 		
 	}
 
