@@ -17,12 +17,12 @@
             />
     </LinearLayout>
     
-    <Gallery android:id="@+id/gallery_page1"
+    <Gallery android:id="@+id/gallery_apple"
         android:layout_width="fill_parent"
-        android:layout_height="130dp"
+        android:layout_height="150dp"
         android:background="#B5B5B5"
         />
-    <ListView android:id="@+id/list_page1"
+    <ListView android:id="@+id/list_apple"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="#D9D9D9"

@@ -1,5 +1,8 @@
 package com.taiwan.imageload;
 
+import java.util.ArrayList;
+
+import com.taiwan.news.entity.News;
 import com.taiwan.realtime.news.R;
 
 import android.app.Activity;
@@ -7,26 +10,30 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 public class GalleryAdapter extends BaseAdapter {
     
     private Activity activity;
-    private String[] data;
+    private ArrayList<News> data;
     private static LayoutInflater inflater=null;
     public ImageLoader imageLoader; 
+    private int width;
     
-    public GalleryAdapter(Activity a, String[] d) {
+    public GalleryAdapter(Activity a, ArrayList<News> d, int myWidth) {
         activity = a;
         data=d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader=new ImageLoader(activity.getApplicationContext());
+        width = myWidth;
     }
 
     public int getCount() {
-        return data.length;
+        return data.size();
     }
 
     public Object getItem(int position) {
@@ -46,10 +53,11 @@ public class GalleryAdapter extends BaseAdapter {
         ImageView image=(ImageView)vi.findViewById(R.id.image_gallery);
         TextView textCategory=(TextView)vi.findViewById(R.id.text_gallery_category);
         
-        textTitle.setText("item "+position);
-        textCategory.setText("頭條新聞");
+        textTitle.setText(data.get(position).getTitle());
+        textCategory.setText(data.get(position).getCategoryName());      
+        imageLoader.DisplayImage(data.get(position).getPicturesUrl().get(0), image);
         
-        imageLoader.DisplayImage(data[position], image);
+        vi.setLayoutParams(new Gallery.LayoutParams(width, 200));   
         return vi;
     }
 }
