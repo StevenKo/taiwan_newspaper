@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme"
         android:screenOrientation="portrait" >
         <activity
-            android:name=".EnterActivity"
+            android:name=".TabActivity"
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" 
             >
@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".TabActivity"
+            android:name=".EnterActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" 

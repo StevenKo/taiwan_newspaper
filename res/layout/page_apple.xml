@@ -22,6 +22,15 @@
         android:layout_height="150dp"
         android:background="#B5B5B5"
         />
+    <LinearLayout android:id="@+id/image_count"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#47001D"
+        >
+    </LinearLayout>
+    
     <ListView android:id="@+id/list_apple"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
