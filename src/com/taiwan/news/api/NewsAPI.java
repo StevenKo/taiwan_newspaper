@@ -60,7 +60,7 @@ public class NewsAPI {
 
     public static ArrayList<News> getPromotionNews(int source) {
         ArrayList<News> news = new ArrayList();
-        String message = getMessageFromServer("GET", "/api/v1/news.json?category_id=2&page=1", null);
+        String message = getMessageFromServer("GET", "/api/v1/news/promotion.json?source_id=" + source, null);
         if (message == null) {
             return null;
         } else {
@@ -70,10 +70,18 @@ public class NewsAPI {
                 for (int i = 0; i < newsArray.length(); i++) {
                     int id = newsArray.getJSONObject(i).getInt("id");
                     String title = newsArray.getJSONObject(i).getString("title");
-                    String release = newsArray.getJSONObject(i).getString("release_time");
-                    DateFormat createFormatter = new SimpleDateFormat("yyyy/MM/dd HH:MM");
-                    Date release_time = createFormatter.parse(release);
-                    News n = new News(id, "", null, "", 0, release_time, "", title);
+                    int category_id = newsArray.getJSONObject(i).getInt("category_id");
+
+                    ArrayList<NewsPicture> pics = new ArrayList<NewsPicture>();
+                    JSONArray picArray = newsArray.getJSONObject(i).getJSONArray("pics");
+                    for (int j = 0; j < picArray.length(); j++) {
+                        String intro = picArray.getJSONObject(j).getString("description");
+                        String link = picArray.getJSONObject(j).getString("link");
+                        NewsPicture pic = new NewsPicture(link, intro);
+                        pics.add(pic);
+                    }
+
+                    News n = new News(id, "", pics, "", category_id, new Date(), Category.getCategoryName(category_id), title);
                     news.add(n);
                 }
 
