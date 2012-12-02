@@ -68,9 +68,6 @@ public class NewsAPI {
             } catch (JSONException e) {
                 e.printStackTrace();
                 return null;
-            } catch (ParseException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
             }
         }
         return news;
