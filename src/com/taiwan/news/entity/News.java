@@ -4,23 +4,23 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class News {
-    private int               id;
-    private String            source;
-    private ArrayList<String> pictures_url;
-    private String            content;
-    private int               category_id;
-    private Date              releaseTime;
-    private final String      categoryName;
-    private final String      title;
+    private int                id;
+    private String             source;
+    private ArrayList<NewsPicture> pictures;
+    private String             content;
+    private int                category_id;
+    private Date               releaseTime;
+    private final String       categoryName;
+    private final String       title;
 
     public News() {
         this(-1, "", null, "", -1, new Date(), "", "");
     }
 
-    public News(int id, String source, ArrayList<String> pictures_url, String content, int category_id, Date releaseTime, String categoryName, String title) {
+    public News(int id, String source, ArrayList<NewsPicture> pictures, String content, int category_id, Date releaseTime, String categoryName, String title) {
         this.id = id;
         this.source = source;
-        this.pictures_url = pictures_url;
+        this.pictures = pictures;
         this.content = content;
         this.category_id = category_id;
         this.releaseTime = releaseTime;
@@ -44,12 +44,12 @@ public class News {
         this.source = source;
     }
 
-    public ArrayList<String> getPicturesUrl() {
-        return pictures_url;
+    public ArrayList<NewsPicture> getPictures() {
+        return pictures;
     }
 
-    public void setPicturesUrl(ArrayList<String> pictures_url) {
-        this.pictures_url = pictures_url;
+    public void setPictures(ArrayList<NewsPicture> pictures) {
+        this.pictures = pictures;
     }
 
     public String getContent() {

@@ -2,33 +2,32 @@ package com.taiwan.imageload;
 
 import java.util.ArrayList;
 
-import com.taiwan.news.entity.News;
-import com.taiwan.realtime.news.R;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.taiwan.news.entity.News;
+import com.taiwan.realtime.news.R;
+
 public class GalleryAdapter extends BaseAdapter {
-    
-    private Activity activity;
-    private ArrayList<News> data;
-    private static LayoutInflater inflater=null;
-    public ImageLoader imageLoader; 
-    private int width;
-    
+
+    private final Activity        activity;
+    private final ArrayList<News> data;
+    private static LayoutInflater inflater = null;
+    public ImageLoader            imageLoader;
+    private final int             width;
+
     public GalleryAdapter(Activity a, ArrayList<News> d, int myWidth) {
         activity = a;
-        data=d;
-        inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        imageLoader=new ImageLoader(activity.getApplicationContext(), 70);
+        data = d;
+        inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        imageLoader = new ImageLoader(activity.getApplicationContext(), 70);
         width = myWidth;
     }
 
@@ -43,21 +42,21 @@ public class GalleryAdapter extends BaseAdapter {
     public long getItemId(int position) {
         return position;
     }
-    
+
     public View getView(int position, View convertView, ViewGroup parent) {
-        View vi=convertView;
-        if(convertView==null)
+        View vi = convertView;
+        if (convertView == null)
             vi = inflater.inflate(R.layout.item_gallery, null);
 
-        TextView textTitle=(TextView)vi.findViewById(R.id.text_gallery_title);
-        ImageView image=(ImageView)vi.findViewById(R.id.image_gallery);
-        TextView textCategory=(TextView)vi.findViewById(R.id.text_gallery_category);
-        
+        TextView textTitle = (TextView) vi.findViewById(R.id.text_gallery_title);
+        ImageView image = (ImageView) vi.findViewById(R.id.image_gallery);
+        TextView textCategory = (TextView) vi.findViewById(R.id.text_gallery_category);
+
         textTitle.setText(data.get(position).getTitle());
-        textCategory.setText(data.get(position).getCategoryName());      
-        imageLoader.DisplayImage(data.get(position).getPicturesUrl().get(0), image);
-        
-        vi.setLayoutParams(new Gallery.LayoutParams(width, 200));   
+        textCategory.setText(data.get(position).getCategoryName());
+        // imageLoader.DisplayImage(data.get(position).getPicturesUrl().get(0), image);
+
+        vi.setLayoutParams(new Gallery.LayoutParams(width, 200));
         return vi;
     }
 }
