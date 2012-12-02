@@ -118,9 +118,6 @@ public class NewsAPI {
     }
 
     public static News getNewsDetail(int newsId) {
-        // ArrayList<String> pics = new ArrayList<String>();
-        // pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
-        // pics.add("http://twimg.edgesuite.net/images/ReNews/20121126/420_2c70a27cecf7a6e96312b605b5e5b130.jpg");
         News n = null;
         String message = getMessageFromServer("GET", "/api/v1/news/" + newsId + ".json", null);
         if (message == null) {
@@ -137,7 +134,7 @@ public class NewsAPI {
                 String release = newsObject.getString("release_time");
                 DateFormat createFormatter = new SimpleDateFormat("yyyy/MM/dd HH:MM");
                 Date release_time = createFormatter.parse(release);
-                n = new News(id, source[source_id], null, content, category_id, release_time, "娛樂", title);
+                n = new News(id, source[source_id], null, content, category_id, release_time, Category.getCategoryName(category_id), title);
 
             } catch (JSONException e) {
 
@@ -146,6 +143,7 @@ public class NewsAPI {
             } catch (ParseException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
+                return null;
             }
         }
         return n;
