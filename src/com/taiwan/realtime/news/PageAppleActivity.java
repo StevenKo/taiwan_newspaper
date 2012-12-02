@@ -39,6 +39,7 @@ public class PageAppleActivity extends Activity {
     private static TextView     mDotsText[];
     private int                 mDotsCount;
     private LinearLayout        mDotsLayout;
+    private LinearLayout        downLoadingLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,21 +49,108 @@ public class PageAppleActivity extends Activity {
         deviceWidth = PageAppleActivity.this.getWindowManager().getDefaultDisplay().getWidth();
 
         // download first, and then set UIs on postexecute.
-        new DownloadTask().execute();
+        new DownloadCategoryTask().execute();
+        
+        new DownloadPromotionTask().execute();
 
     }
 
-    private void setUI() {
+  
+
+    
+    
+    
+    
+
+    private class DownloadCategoryTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+//            progressDialog = ProgressDialog.show(PageAppleActivity.this, "", "Loading, please wait...");
+
+        }
+
+        @Override
+        protected Object doInBackground(Object... params) {
+            // TODO Auto-generated method stub
+
+            myCategroyArray = NewsAPI.getSourceCategory(NewsAPI.APPLE);
+  
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+            // TODO Auto-generated method stub
+            super.onPostExecute(result);
+//          progressDialog.dismiss();
+            setListUI();
+
+        }
+    }
+    
+    private void setListUI() {
+		// TODO Auto-generated method stub
+    	 myList = (ListView) findViewById(R.id.list_apple);
+         myListAdapter = new ListAdapter(this, myCategroyArray);
+         myList.setAdapter(myListAdapter);
+         
+         myList.setOnItemClickListener(new OnItemClickListener() {
+ 			@Override
+ 			public void onItemClick(AdapterView<?> parent, View view,
+ 					int position, long id) {
+ 				
+ 				Intent intent = new Intent(PageAppleActivity.this, PageNewsListActivity.class);
+   				startActivity(intent);
+
+ 			}
+ 		});
+	}
+    
+    
+
+    private class DownloadPromotionTask extends AsyncTask {
+
+        @Override
+        protected void onPreExecute() {
+            // TODO Auto-generated method stub
+            super.onPreExecute();
+//            progressDialog = ProgressDialog.show(PageAppleActivity.this, "", "Loading, please wait...");
+
+        }
+
+        @Override
+        protected Object doInBackground(Object... params) {
+            // TODO Auto-generated method stub
+
+            myPromotionArray = NewsAPI.getPromotionNews(1);
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Object result) {
+            // TODO Auto-generated method stub
+            super.onPostExecute(result);
+//          progressDialog.dismiss();
+            setGalleryUI();
+
+        }
+	
+    }
+    
+    private void setGalleryUI() {
         // TODO Auto-generated method stub
-        myList = (ListView) findViewById(R.id.list_apple);
-        myListAdapter = new ListAdapter(this, myCategroyArray);
-        myList.setAdapter(myListAdapter);
+       
 
         myGallery = (Gallery) findViewById(R.id.gallery_apple);
         myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth);
         myGallery.setAdapter(myGalleryAdpter);
 
         mDotsLayout = (LinearLayout) findViewById(R.id.image_count);
+        downLoadingLayout = (LinearLayout) findViewById(R.id.linear_downloading);
+        downLoadingLayout.setVisibility(View.GONE);
         mDotsCount = myGallery.getAdapter().getCount();
         mDotsText = new TextView[mDotsCount];
         // here we set the dots
@@ -94,65 +182,24 @@ public class PageAppleActivity extends Activity {
 
             }
         }));
-        
-        myList.setOnItemClickListener(new OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
-				
-				Intent intent = new Intent(PageAppleActivity.this, PageNewsListActivity.class);
-  				startActivity(intent);
-
-			}
-		});
-        
+             
         runnable.run();
     }
-
+    
     private final Runnable runnable = new Runnable() {
-                                        public void run() {
-                                            myslideshow();
-                                            handler.postDelayed(this, 5000);
-                                        }
-                                    };
-
-    private void myslideshow() {
-        PicPosition = myGallery.getSelectedItemPosition() + 1;
-        if (PicPosition >= myPromotionArray.size()) {
-            // PicPosition = myGallery.getSelectedItemPosition();
-            myGallery.setSelection(0);
-        } else {
-            myGallery.setSelection(PicPosition);// move to the next gallery element.
+        public void run() {
+            myslideshow();
+            handler.postDelayed(this, 5000);
         }
-    }
+    };
 
-    private class DownloadTask extends AsyncTask {
-
-        @Override
-        protected void onPreExecute() {
-            // TODO Auto-generated method stub
-            super.onPreExecute();
-            progressDialog = ProgressDialog.show(PageAppleActivity.this, "", "Loading, please wait...");
-
-        }
-
-        @Override
-        protected Object doInBackground(Object... params) {
-            // TODO Auto-generated method stub
-
-            myCategroyArray = NewsAPI.getSourceCategory(NewsAPI.APPLE);
-            myPromotionArray = NewsAPI.getPromotionNews(1);
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Object result) {
-            // TODO Auto-generated method stub
-            super.onPostExecute(result);
-            progressDialog.dismiss();
-            setUI();
-
-        }
-    }
-
+	private void myslideshow() {
+		PicPosition = myGallery.getSelectedItemPosition() + 1;
+		if (PicPosition >= myPromotionArray.size()) {
+		// PicPosition = myGallery.getSelectedItemPosition();
+			myGallery.setSelection(0);
+		} else {
+			myGallery.setSelection(PicPosition);// move to the next gallery element.
+		}
+	}
 }

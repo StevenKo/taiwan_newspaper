@@ -17,11 +17,32 @@
             />
     </LinearLayout>
     
-    <Gallery android:id="@+id/gallery_apple"
+    <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="150dp"
-        android:background="#B5B5B5"
-        />
+        android:orientation="horizontal"   
+        >
+        <LinearLayout android:id="@+id/linear_downloading"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:gravity="center"
+            >
+	        <ProgressBar 
+	            android:layout_width="50dp"
+	            android:layout_height="50dp"
+	            />
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text=" 下載中, 請稍候.."
+	             />
+        </LinearLayout>
+	    <Gallery android:id="@+id/gallery_apple"
+	        android:layout_width="fill_parent"
+	        android:layout_height="150dp"
+	        android:background="#B5B5B5"
+	        />
+    </LinearLayout>
     <LinearLayout android:id="@+id/image_count"
         android:layout_width="fill_parent"
         android:layout_height="20dp"
