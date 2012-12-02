@@ -36,6 +36,21 @@
             android:screenOrientation="portrait" 
             >
         </activity>
+        <activity
+            android:name=".PageNewsListActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" 
+            >
+        </activity>
+        <activity
+            android:name=".PageNewsDetailActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" 
+            >
+        </activity>
+        
         
     </application>
     

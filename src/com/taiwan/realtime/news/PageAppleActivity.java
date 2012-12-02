@@ -15,6 +15,7 @@ import com.taiwan.news.entity.Category;
 import com.taiwan.news.entity.News;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -26,6 +27,7 @@ import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 
 public class PageAppleActivity extends Activity {
@@ -82,6 +84,38 @@ public class PageAppleActivity extends Activity {
           
         }
    
+        myList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				
+				Intent intent = new Intent(PageAppleActivity.this, PageNewsListActivity.class);
+				startActivity(intent);
+				
+//				TextView v1 = (TextView)view.findViewById(R.id.textView1);
+//				TextView v2 = (TextView)view.findViewById(R.id.textView2);
+				
+//				String url = v2.getText().toString();
+      			if(position==7){
+//      				Intent intent = new Intent(MoreActivity.this, RunningTeamActivity.class);
+//	      			TabGroupActivity parentActivity = (TabGroupActivity)getParent();     				
+//	      			parentActivity.startChildActivity("RunningTeamActivity", intent);
+//      				startActivity(intent);
+      			}else if(position==9){
+//      				Intent intent = new Intent(MoreActivity.this, BePartnerActivity.class);
+//	      			TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+//	      			parentActivity.startChildActivity("BePartnerActivity", intent);
+//	      			startActivity(intent);
+      			}else{
+//	      			Intent intent = new Intent(MoreActivity.this, MoreLink.class);
+//	      			TabGroupActivity parentActivity = (TabGroupActivity)getParent();
+//	      			intent.putExtra("url", url);
+//	      			parentActivity.startChildActivity("MoreLink", intent);
+//	      			startActivity(intent);
+      			}
+
+			}
+		});
         
         myGallery.setOnItemSelectedListener((new OnItemSelectedListener() {
 			@Override
