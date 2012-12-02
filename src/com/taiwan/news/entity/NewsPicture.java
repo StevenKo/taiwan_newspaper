@@ -1,14 +1,14 @@
 package com.taiwan.news.entity;
 
-public class Picture {
+public class NewsPicture {
     String intro;
     String url;
 
-    public Picture() {
+    public NewsPicture() {
         this("", "");
     }
 
-    public Picture(String url, String intro) {
+    public NewsPicture(String url, String intro) {
         this.url = url;
         this.intro = intro;
     }

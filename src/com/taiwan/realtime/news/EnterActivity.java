@@ -1,9 +1,9 @@
 package com.taiwan.realtime.news;
 
-import android.os.Bundle;
-import android.os.Handler;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
+import android.os.Handler;
 import android.view.Menu;
 
 public class EnterActivity extends Activity {
@@ -12,17 +12,17 @@ public class EnterActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_enter);
-        
-        new Handler().postDelayed(new Runnable (){
-        	
-   	     @Override
-   	     public void run() {
-   	    	 Intent new_intent = new Intent(EnterActivity.this,TabActivity.class);
-   	    	 startActivity(new_intent);
-   	         finish();            
-   	     }}, 5000);
-   	}
-    
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                Intent new_intent = new Intent(EnterActivity.this, TabActivity.class);
+                startActivity(new_intent);
+                finish();
+            }
+        }, 5000);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -30,4 +30,3 @@ public class EnterActivity extends Activity {
         return true;
     }
 }
-
