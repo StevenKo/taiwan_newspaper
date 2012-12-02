@@ -35,27 +35,7 @@ public class NewsAPI {
     static String[]             source    = { "蘋果日報", "自由時報", "聯合報", "中時電子報", "經濟日報" };
 
     public static ArrayList<Category> getSourceCategory(int source) {
-        ArrayList<Category> categories = new ArrayList();
-        String message = getMessageFromServer("GET", "/api/v1/categories.json?source_id=" + source, null);
-        if (message == null) {
-            return null;
-        } else {
-            try {
-                JSONArray cagegoryArray;
-                cagegoryArray = new JSONArray(message.toString());
-                for (int i = 0; i < cagegoryArray.length(); i++) {
-                    int id = cagegoryArray.getJSONObject(i).getInt("id");
-                    String name = cagegoryArray.getJSONObject(i).getString("name");
-                    Category c = new Category(id, name);
-                    categories.add(c);
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-        return categories;
+        return Category.getCategory(source);
     }
 
     public static ArrayList<News> getPromotionNews(int source) {
