@@ -1,9 +1,13 @@
 package com.taiwan.realtime.news;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import com.costum.android.widget.LoadMoreListView;
 import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
+import com.taiwan.imageload.ListNewsAdapter;
+import com.taiwan.news.api.NewsAPI;
+import com.taiwan.news.entity.News;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -24,22 +28,38 @@ public class PageNewsListActivity extends Activity {
 				"Freddy", "Lazaro", "Hector", "Carolina", "Edwin", "Jhon",
 				"Edelmira", "Andres" };
 	
-	private LoadMoreListView myList;
+	
 	
 	private ArrayAdapter<String> adapter;
+	
+	private LoadMoreListView myList;
+	private Bundle mBundle;
+	private int sourceInt;
+	private int categoryInt;
+	private ArrayList<News> myNewsArray = new ArrayList<News>();
+	private ListNewsAdapter myListNewsAdapter;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_news_list);
-    
-        mListItems = new LinkedList<String>();
-		mListItems.addAll(Arrays.asList(mNames));
-
-		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mListItems);
-		
-		myList = (LoadMoreListView) findViewById(R.id.news_list);
-		myList.setAdapter(adapter);
+        
+        mBundle = this.getIntent().getExtras(); 
+        sourceInt = mBundle.getInt("SourceInt");
+        categoryInt = mBundle.getInt("CategoryInt");
+        
+        myList = (LoadMoreListView) findViewById(R.id.news_list);
+        myNewsArray = NewsAPI.getCateroyNews(sourceInt, categoryInt, 1);
+        myListNewsAdapter = new ListNewsAdapter(this,myNewsArray);
+        myList.setAdapter(myListNewsAdapter);
+        
+//      mListItems = new LinkedList<String>();
+//		mListItems.addAll(Arrays.asList(mNames));
+//
+//		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mListItems);
+//		
+//		
+//		myList.setAdapter(adapter);
 
 		// set a listener to be invoked when the list reaches the end
 		myList.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -78,18 +98,18 @@ public class PageNewsListActivity extends Activity {
 			} catch (InterruptedException e) {
 			}
 
-			for (int i = 0; i < mNames.length; i++)
-				mListItems.add(mNames[i]);
+			for (int i = 0; i < myNewsArray.size(); i++)
+				myNewsArray.add(myNewsArray.get(i));
 
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
-			mListItems.add("Added after load more");
+//			mListItems.add("Added after load more");
 
 			// We need notify the adapter that the data have been changed
-			adapter.notifyDataSetChanged();
+			myListNewsAdapter.notifyDataSetChanged();
 
 			// Call onLoadMoreComplete when the LoadMore task, has finished
 			myList.onLoadMoreComplete();
