@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -17,8 +16,7 @@ import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemSelectedListener;
+
 import com.taiwan.imageload.GalleryAdapter;
 import com.taiwan.imageload.ListAdapter;
 import com.taiwan.news.api.NewsAPI;
@@ -45,7 +43,6 @@ public class PageAppleActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_apple);
-        NewsAPI.getNewsDetail(1);
 
         deviceWidth = PageAppleActivity.this.getWindowManager().getDefaultDisplay().getWidth();
 
