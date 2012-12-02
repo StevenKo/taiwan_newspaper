@@ -21,6 +21,7 @@ import android.util.Log;
 
 import com.taiwan.news.entity.Category;
 import com.taiwan.news.entity.News;
+import com.taiwan.news.entity.NewsPicture;
 
 public class NewsAPI {
     public final static int     APPLE     = 1;
@@ -134,7 +135,17 @@ public class NewsAPI {
                 String release = newsObject.getString("release_time");
                 DateFormat createFormatter = new SimpleDateFormat("yyyy/MM/dd HH:MM");
                 Date release_time = createFormatter.parse(release);
-                n = new News(id, source[source_id], null, content, category_id, release_time, Category.getCategoryName(category_id), title);
+
+                ArrayList<NewsPicture> pics = new ArrayList<NewsPicture>();
+                JSONArray picArray = newsObject.getJSONArray("pics");
+                for (int i = 0; i < picArray.length(); i++) {
+                    String intro = picArray.getJSONObject(i).getString("description");
+                    String link = picArray.getJSONObject(i).getString("link");
+                    NewsPicture pic = new NewsPicture(link, intro);
+                    pics.add(pic);
+                }
+
+                n = new News(id, source[source_id], pics, content, category_id, release_time, Category.getCategoryName(category_id), title);
 
             } catch (JSONException e) {
 

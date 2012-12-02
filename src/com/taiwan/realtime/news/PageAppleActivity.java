@@ -43,6 +43,7 @@ public class PageAppleActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_apple);
+        NewsAPI.getNewsDetail(1);
 
         deviceWidth = PageAppleActivity.this.getWindowManager().getDefaultDisplay().getWidth();
 
