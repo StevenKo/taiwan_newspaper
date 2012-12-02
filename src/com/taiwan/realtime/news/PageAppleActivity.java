@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -11,12 +12,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.taiwan.imageload.GalleryAdapter;
 import com.taiwan.imageload.ListAdapter;
 import com.taiwan.news.api.NewsAPI;
@@ -93,7 +94,18 @@ public class PageAppleActivity extends Activity {
 
             }
         }));
+        
+        myList.setOnItemClickListener(new OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				
+				Intent intent = new Intent(PageAppleActivity.this, PageNewsListActivity.class);
+  				startActivity(intent);
 
+			}
+		});
+        
         runnable.run();
     }
 
@@ -129,7 +141,7 @@ public class PageAppleActivity extends Activity {
             // TODO Auto-generated method stub
 
             myCategroyArray = NewsAPI.getSourceCategory(NewsAPI.APPLE);
-            myPromotionArray = NewsAPI.getPromotionNews(0);
+            myPromotionArray = NewsAPI.getPromotionNews(1);
             return null;
         }
 

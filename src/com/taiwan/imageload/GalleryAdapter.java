@@ -54,7 +54,11 @@ public class GalleryAdapter extends BaseAdapter {
 
         textTitle.setText(data.get(position).getTitle());
         textCategory.setText(data.get(position).getCategoryName());
-        // imageLoader.DisplayImage(data.get(position).getPicturesUrl().get(0), image);
+        try{
+        	imageLoader.DisplayImage(data.get(position).getPictures().get(0).getUrl(), image);
+        }catch(Exception e){
+        	
+        }
 
         vi.setLayoutParams(new Gallery.LayoutParams(width, 200));
         return vi;
