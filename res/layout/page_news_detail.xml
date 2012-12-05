@@ -7,7 +7,17 @@
 	<LinearLayout android:id="@+id/linear_source"
 	   android:layout_width="fill_parent"
        android:layout_height="50dp" 
-	    ></LinearLayout>
+	    >
+	    <TextView android:id="@+id/text_news_source"
+	   android:layout_width="fill_parent"
+       android:layout_height="50dp"
+       android:text="蘋果日報 --- 娛樂"
+       android:gravity="center"
+       android:layout_margin="5dp"
+       android:textSize="15dp"
+       android:background="#F27D00"
+       />
+	</LinearLayout>
 	<TextView android:id="@+id/text_news_title"
 	   android:layout_width="fill_parent"
        android:layout_height="wrap_content"
@@ -15,13 +25,15 @@
        android:gravity="center"
        android:layout_margin="5dp"
        android:textSize="15dp"
+       android:background="#A8A8A8"
        />
 	<ScrollView
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:layout_weight="1"
+	    android:background="#3E7539"
 	     >
-		<TextView 
+		<TextView  android:id="@+id/text_news_content"
 		   android:layout_width="fill_parent"
 	       android:layout_height="wrap_content"
 	       android:text="內容"
@@ -39,13 +51,14 @@
        	 android:layout_height="50dp"
        	 android:gravity="right|center_vertical"
        	 android:orientation="horizontal"
+       	 android:background="#4D3C18"
 	      >
-	     <Button
+	     <Button android:id="@+id/button_up"
 	        android:layout_width="80dp"
        	 	android:layout_height="40dp"
        	 	android:text="上一頁"
 	         />
-	     <Button
+	     <Button android:id="@+id/button_down"
 	        android:layout_width="80dp"
        	 	android:layout_height="40dp"
        	 	android:text="下一頁"

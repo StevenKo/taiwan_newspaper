@@ -101,17 +101,14 @@ public class PageAppleActivity extends Activity {
  			@Override
  			public void onItemClick(AdapterView<?> parent, View view,
  					int position, long id) {
- 				if (position == 0){
+
 	 				Intent intent = new Intent(PageAppleActivity.this, PageNewsListActivity.class);
 	 				Bundle bundle = new Bundle();
-	 				bundle.putInt("CategoryInt", position+1); 
+	 				bundle.putInt("CategoryInt", myCategroyArray.get(position).getId()); 
 	 				bundle.putInt("SourceInt", 1); //means Apple
 	 				intent.putExtras(bundle);
 	   				startActivity(intent);
- 				}
- 				if (position == 1){
- 					
- 				}
+ 		
 
  			}
  		});
