@@ -86,7 +86,7 @@ public class NewsAPI {
                     int id = newsArray.getJSONObject(i).getInt("id");
                     String title = newsArray.getJSONObject(i).getString("title");
                     String release = newsArray.getJSONObject(i).getString("release_time");
-                    DateFormat createFormatter = new SimpleDateFormat("yyyy/MM/dd HH:MM");
+                    DateFormat createFormatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
                     Date release_time = createFormatter.parse(release);
 
                     ArrayList<NewsPicture> pics = new ArrayList<NewsPicture>();
