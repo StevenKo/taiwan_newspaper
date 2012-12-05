@@ -17,20 +17,10 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.TextView;
 
 public class PageNewsListActivity extends Activity {
 
-	// list with the data to show in the listview
-	private LinkedList<String> mListItems;
-
-	// The data to be displayed in the ListView
-	private String[] mNames = { "Fabian", "Carlos", "Alex", "Andrea", "Karla",
-				"Freddy", "Lazaro", "Hector", "Carolina", "Edwin", "Jhon",
-				"Edelmira", "Andres" };
-	
-	
-	
-	private ArrayAdapter<String> adapter;
 	
 	private LoadMoreListView myList;
 	private Bundle mBundle;
@@ -38,6 +28,8 @@ public class PageNewsListActivity extends Activity {
 	private int categoryInt;
 	private ArrayList<News> myNewsArray = new ArrayList<News>();
 	private ListNewsAdapter myListNewsAdapter;
+	private int pageNum;
+	private TextView textCategory;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -48,65 +40,103 @@ public class PageNewsListActivity extends Activity {
         sourceInt = mBundle.getInt("SourceInt");
         categoryInt = mBundle.getInt("CategoryInt");
         
-        myList = (LoadMoreListView) findViewById(R.id.news_list);
-        myNewsArray = NewsAPI.getCateroyNews(sourceInt, categoryInt, 1);
-        myListNewsAdapter = new ListNewsAdapter(this,myNewsArray);
-        myList.setAdapter(myListNewsAdapter);
-        
-//      mListItems = new LinkedList<String>();
-//		mListItems.addAll(Arrays.asList(mNames));
-//
-//		adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, mListItems);
-//		
-//		
-//		myList.setAdapter(adapter);
+        new LoadDataTaskFirst().execute();
 
-		// set a listener to be invoked when the list reaches the end
-		myList.setOnLoadMoreListener(new OnLoadMoreListener() {
-					public void onLoadMore() {
-						// Do the work to load more items at the end of list
-						// here
-						new LoadDataTask().execute();
-					}
-				});
 		
+        
+   	}
+    
+    private class LoadDataTaskFirst extends AsyncTask<Void, Void, Void> {
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			
+			pageNum =1;
+			myNewsArray = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
+		       	       
+			return null;
+		}
+
+		@Override
+		protected void onPostExecute(Void result) {
+			
+			setList();
+				
+
+			super.onPostExecute(result);
+		
+
+		}
+
+	}
+    
+    private void setList() {
+		
+    	textCategory = (TextView) findViewById(R.id.text_category);
+    	myList = (LoadMoreListView) findViewById(R.id.news_list);
+        
+    	textCategory.setText(myNewsArray.get(0).getCategoryName()+" --- "+myNewsArray.get(0).getCategoryName());
+    	
+    	myListNewsAdapter = new ListNewsAdapter(this,myNewsArray);
+    	myList.setAdapter(myListNewsAdapter);
+    	
+    	myList.setOnLoadMoreListener(new OnLoadMoreListener() {
+			public void onLoadMore() {
+				// Do the work to load more items at the end of list
+				// here
+				new LoadDataTask().execute();
+			}
+		});
+
 		myList.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				
+				mBundle.putInt("NewsPosition", position);				
+				mBundle.putInt("PageNum", pageNum);
+				
+				int[] newsIDs = getNewsIdArray();
+				mBundle.putIntArray("NewsIDs", newsIDs);
+				
 				Intent intent = new Intent(PageNewsListActivity.this, PageNewsDetailActivity.class);
+				intent.putExtras(mBundle);
 				startActivity(intent);
+		
+			}
 
+			private int[] getNewsIdArray() {
+				
+				int[] a = new int[myNewsArray.size()];
+				
+				for (int i=0;i<myNewsArray.size();i++){
+					a[i] = myNewsArray.get(i).getId();
+				}
+				
+				return a;
 			}
 		});
-        
-   	}
+	}
+    
     
     private class LoadDataTask extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
-
-			if (isCancelled()) {
-				return null;
-			}
-
-			// Simulates a background task
-			try {
-				Thread.sleep(1000);
-			} catch (InterruptedException e) {
-			}
-
-			for (int i = 0; i < myNewsArray.size(); i++)
-				myNewsArray.add(myNewsArray.get(i));
+			
+			pageNum = pageNum + 1;
+			ArrayList<News> addArray = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
+			
+			for (int i = 0; i < addArray.size(); i++)
+				
+				myNewsArray.add(addArray.get(i));
 
 			return null;
 		}
 
 		@Override
 		protected void onPostExecute(Void result) {
-//			mListItems.add("Added after load more");
+
 
 			// We need notify the adapter that the data have been changed
 			myListNewsAdapter.notifyDataSetChanged();

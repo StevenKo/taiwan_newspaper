@@ -44,9 +44,9 @@ public class ListAdapter extends BaseAdapter {
         View vi=convertView;
         if(convertView==null)
             vi = inflater.inflate(R.layout.item_list, null);
-
-        TextView text=(TextView)vi.findViewById(R.id.text_list);;
-        text.setText(data.get(position).getCateName());
+	        TextView text=(TextView)vi.findViewById(R.id.text_list);;
+	        text.setText(data.get(position).getCateName());
+	        
         return vi;
     }
 }
