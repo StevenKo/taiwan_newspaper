@@ -30,6 +30,8 @@ public class PageNewsListActivity extends Activity {
 	private ListNewsAdapter myListNewsAdapter;
 	private int pageNum;
 	private TextView textCategory;
+	private String sourceName;
+	private String categoryName;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class PageNewsListActivity extends Activity {
         mBundle = this.getIntent().getExtras(); 
         sourceInt = mBundle.getInt("SourceInt");
         categoryInt = mBundle.getInt("CategoryInt");
+        sourceName = mBundle.getString("SourceName");
+        categoryName = mBundle.getString("CategoryName");
         
         new LoadDataTaskFirst().execute();
 
@@ -75,7 +79,7 @@ public class PageNewsListActivity extends Activity {
     	textCategory = (TextView) findViewById(R.id.text_category);
     	myList = (LoadMoreListView) findViewById(R.id.news_list);
         
-    	textCategory.setText(myNewsArray.get(0).getCategoryName()+" --- "+myNewsArray.get(0).getCategoryName());
+    	textCategory.setText(sourceName+" --- "+categoryName);
     	
     	myListNewsAdapter = new ListNewsAdapter(this,myNewsArray);
     	myList.setAdapter(myListNewsAdapter);

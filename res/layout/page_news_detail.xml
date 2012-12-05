@@ -14,7 +14,7 @@
        android:text="蘋果日報 --- 娛樂"
        android:gravity="center"
        android:layout_margin="5dp"
-       android:textSize="15dp"
+       android:textSize="18dp"
        android:background="#F27D00"
        />
 	</LinearLayout>
@@ -24,9 +24,16 @@
        android:text="標題"
        android:gravity="center"
        android:layout_margin="5dp"
-       android:textSize="15dp"
+       android:textSize="18dp"
        android:background="#A8A8A8"
        />
+	<TextView android:id="@+id/text_news_datetime"
+	   android:layout_width="fill_parent"
+       android:layout_height="wrap_content"
+       android:text="2012/12/06 14:00"
+       android:textSize="15dp"
+       android:layout_marginLeft="10dp"    
+	    />
 	<ScrollView
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
@@ -38,7 +45,7 @@
 	       android:layout_height="wrap_content"
 	       android:text="內容"
 	       android:layout_margin="5dp"
-	       android:textSize="15dp"	      
+	       android:textSize="18dp"	      
 		    />
 	</ScrollView>
 	<LinearLayout android:id="@+id/linear_bottom"

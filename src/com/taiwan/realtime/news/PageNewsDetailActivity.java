@@ -1,6 +1,7 @@
 package com.taiwan.realtime.news;
 
 import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -25,6 +26,7 @@ public class PageNewsDetailActivity extends Activity {
 	private TextView textNewsSource;
 	private TextView textNewsTitle;
 	private TextView textNewsContent;
+	private TextView textNewsDatetime;
 	
 	private News thisNews;
 	private Bundle myBundle;
@@ -32,7 +34,9 @@ public class PageNewsDetailActivity extends Activity {
 	private Button buttonUp;
 	private Button buttonDown;
 	private int[] newsIDs ;
+	private ArrayList<Integer> newsIDsArray = new ArrayList<Integer>();
 	private Boolean LoadOrNot = true;
+	private Boolean LoadingOrNot = false; //when false, can load from server; when true, can't load from server
 	private int sourceInt;
 	private int categoryInt;
 	private int pageNum;
@@ -51,11 +55,24 @@ public class PageNewsDetailActivity extends Activity {
         newsPosition = myBundle.getInt("NewsPosition");
         pageNum = myBundle.getInt("PageNum");
         
+        pourNewsIDs();
+        
+        if(newsIDs.length == 1){
+        	new loadNewsIDsTask().execute();
+        }
+        
         new LoadNewsTask().execute();
         
    	}
    
-    private class LoadNewsTask extends AsyncTask<Void, Void, Void> {
+    private void pourNewsIDs() {
+		// TODO Auto-generated method stub
+		for(int i=0; i< newsIDs.length;i++){
+			newsIDsArray.add(newsIDs[i]);
+		}
+	}
+
+	private class LoadNewsTask extends AsyncTask<Void, Void, Void> {
     	
     	@Override
         protected void onPreExecute() {
@@ -68,7 +85,7 @@ public class PageNewsDetailActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 
-			thisNews = NewsAPI.getNewsDetail(newsIDs[newsPosition]);
+			thisNews = NewsAPI.getNewsDetail(newsIDsArray.get(newsPosition));
 			
 			return null;
 		}
@@ -98,7 +115,7 @@ public class PageNewsDetailActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			
-			thisNews = NewsAPI.getNewsDetail(newsIDs[newsPosition]);
+			thisNews = NewsAPI.getNewsDetail(newsIDsArray.get(newsPosition));
 			
 			return null;
 		}
@@ -116,6 +133,7 @@ public class PageNewsDetailActivity extends Activity {
     	textNewsSource = (TextView) findViewById (R.id.text_news_source);
     	textNewsTitle = (TextView) findViewById (R.id.text_news_title);
     	textNewsContent = (TextView) findViewById (R.id.text_news_content);
+    	textNewsDatetime = (TextView) findViewById (R.id.text_news_datetime);
     	buttonUp = (Button) findViewById (R.id.button_up);
     	buttonDown = (Button) findViewById (R.id.button_down);
     	
@@ -133,14 +151,14 @@ public class PageNewsDetailActivity extends Activity {
     	buttonDown.setOnClickListener(new OnClickListener(){  
             public void onClick(View v) {
             	
-            	if(newsPosition == newsIDs.length){
+            	if(newsPosition + 1 == newsIDsArray.size()){
             		Toast.makeText(getApplicationContext(), "無下一則", Toast.LENGTH_SHORT).show();
             	}else{
 	            	newsPosition = newsPosition + 1;
 	            	new UpdateNewsTask().execute();
             	}
             	
-            	if(LoadOrNot && newsPosition > newsIDs.length-5){
+            	if(LoadOrNot && newsIDsArray.size()- newsPosition < 5){
             		new loadNewsIDsTask().execute();
             	}
             	
@@ -159,29 +177,26 @@ public class PageNewsDetailActivity extends Activity {
     	
 		@Override
 		protected Void doInBackground(Void... params) {
-			
-			pageNum = pageNum+1;
-			newCategoryNews = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
-			
+			if(!LoadingOrNot){
+				LoadingOrNot = true;
+				pageNum = pageNum+1;
+				newCategoryNews = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
+			}
 			return null;
 		}
 
-		@SuppressLint("NewApi")
 		@Override
 		protected void onPostExecute(Void result) {
-			
-			if (newCategoryNews == null){
-				LoadOrNot = false;
-			}else{
-				
-				int k = newsIDs.length;
-				int[] a = newsIDs;
-				newsIDs = new int[newsIDs.length+15]; //load 15 news per loading
-				newsIDs = Arrays.copyOf(a, k);
-				
-				for(int i= 0 ; i< newCategoryNews.size(); i++){
-					newsIDs[k+i] = newCategoryNews.get(i).getId(); //error at here
-				}			
+			if(LoadingOrNot){
+				if (newCategoryNews == null){
+					LoadOrNot = false;
+				}else{
+					
+					for(int i= 0 ; i< newCategoryNews.size(); i++){
+						newsIDsArray.add(newCategoryNews.get(i).getId()); //error at here
+					}			
+				}
+				LoadingOrNot = false;
 			}
 			
 			super.onPostExecute(result);			
@@ -195,7 +210,9 @@ public class PageNewsDetailActivity extends Activity {
     	textNewsSource.setText(thisNews.getSource()+"---"+thisNews.getCategoryName());
     	textNewsTitle.setText(thisNews.getTitle());
     	textNewsContent.setText(thisNews.getContent());
-    	
+    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");  
+        String dateString = formatter.format(thisNews.getReleaseTime());  
+    	textNewsDatetime.setText(dateString);
     	
     	
 	}

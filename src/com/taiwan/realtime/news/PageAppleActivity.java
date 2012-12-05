@@ -54,12 +54,6 @@ public class PageAppleActivity extends Activity {
         new DownloadPromotionTask().execute();
 
     }
-
-  
-
-    
-    
-    
     
 
     private class DownloadCategoryTask extends AsyncTask {
@@ -106,6 +100,8 @@ public class PageAppleActivity extends Activity {
 	 				Bundle bundle = new Bundle();
 	 				bundle.putInt("CategoryInt", myCategroyArray.get(position).getId()); 
 	 				bundle.putInt("SourceInt", 1); //means Apple
+	 				bundle.putString("CategoryName", myCategroyArray.get(position).getCateName());
+	 				bundle.putString("SourceName", "蘋果日報");
 	 				intent.putExtras(bundle);
 	   				startActivity(intent);
  		
@@ -187,24 +183,47 @@ public class PageAppleActivity extends Activity {
 
             }
         }));
+        
+        myGallery.setOnItemClickListener(new OnItemClickListener() {
+ 			@Override
+ 			public void onItemClick(AdapterView<?> parent, View view,
+ 					int position, long id) {
+
+	 				Intent intent = new Intent(PageAppleActivity.this, PageNewsDetailActivity.class);
+	 				Bundle bundle = new Bundle();
+	 				bundle.putInt("CategoryInt", myCategroyArray.get(position).getId()); 
+	 				bundle.putInt("SourceInt", 1); //means Apple
+	 				bundle.putInt("NewsPosition", 0);				
+	 				bundle.putInt("PageNum", 1);
+					
+	 				int[] newsIDs = {myPromotionArray.get(position).getId()};
+	 				bundle.putIntArray("NewsIDs", newsIDs);
+	 				
+	 				intent.putExtras(bundle);
+	   				startActivity(intent);
+ 		
+
+ 			}
+ 		});
+        
              
-        runnable.run();
+//        runnable.run();
     }
     
-    private final Runnable runnable = new Runnable() {
-        public void run() {
-            myslideshow();
-            handler.postDelayed(this, 5000);
-        }
-    };
-
-	private void myslideshow() {
-		PicPosition = myGallery.getSelectedItemPosition() + 1;
-		if (PicPosition >= myPromotionArray.size()) {
-		// PicPosition = myGallery.getSelectedItemPosition();
-			myGallery.setSelection(0);
-		} else {
-			myGallery.setSelection(PicPosition);// move to the next gallery element.
-		}
-	}
+//    private final Runnable runnable = new Runnable() {
+//        public void run() {
+//            myslideshow();
+//            handler.postDelayed(this, 5000);
+//        }
+//    };
+//
+//	private void myslideshow() {
+//		PicPosition = myGallery.getSelectedItemPosition() + 1;
+//		if (PicPosition >= myPromotionArray.size()) {
+//		// PicPosition = myGallery.getSelectedItemPosition();
+//			myGallery.setSelection(0);
+//		} else {
+//			myGallery.setSelection(PicPosition);// move to the next gallery element.
+//		}
+//	}
 }

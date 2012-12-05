@@ -1,5 +1,6 @@
 package com.taiwan.imageload;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
@@ -49,13 +50,15 @@ public class ListNewsAdapter extends BaseAdapter {
 
         TextView text = (TextView) vi.findViewById(R.id.text_news_list);
         ImageView image = (ImageView) vi.findViewById(R.id.image_news_list);
-
-        text.setText(data.get(position).getTitle());
+        TextView textDate = (TextView) vi.findViewById(R.id.text_list_date);
         
-        try{
+        text.setText(data.get(position).getTitle());
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");  
+        String dateString = formatter.format(data.get(position).getReleaseTime()); 
+        textDate.setText(dateString);
+        
+        if(data.get(position).getPictures().size()>0){
         	imageLoader.DisplayImage(data.get(position).getPictures().get(0).getUrl(), image);
-        }catch(Exception e){
-        	
         }
         
         return vi;
