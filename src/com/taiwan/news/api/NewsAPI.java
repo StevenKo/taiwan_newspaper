@@ -126,7 +126,7 @@ public class NewsAPI {
                 int source_id = newsObject.getInt("source_id");
                 int category_id = newsObject.getInt("category_id");
                 String release = newsObject.getString("release_time");
-                DateFormat createFormatter = new SimpleDateFormat("yyyy/MM/dd HH:MM");
+                DateFormat createFormatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");
                 Date release_time = createFormatter.parse(release);
 
                 ArrayList<NewsPicture> pics = new ArrayList<NewsPicture>();
