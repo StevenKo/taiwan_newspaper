@@ -138,7 +138,7 @@ public class NewsAPI {
                     pics.add(pic);
                 }
 
-                n = new News(id, source[source_id], pics, content, category_id, release_time, Category.getCategoryName(category_id), title);
+                n = new News(id, source[source_id - 1], pics, content, category_id, release_time, Category.getCategoryName(category_id), title);
 
             } catch (JSONException e) {
 
