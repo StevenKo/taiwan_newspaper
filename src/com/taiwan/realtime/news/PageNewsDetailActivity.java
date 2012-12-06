@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.taiwan.imageload.ImageLoader;
 import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
 import android.annotation.SuppressLint;
@@ -12,9 +13,15 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,8 +32,12 @@ public class PageNewsDetailActivity extends Activity {
 	
 	private TextView textNewsSource;
 	private TextView textNewsTitle;
-	private TextView textNewsContent;
+//	private TextView textNewsContent;
 	private TextView textNewsDatetime;
+	
+	private ScrollView newsScrollView;
+	private ImageLoader imageLoader;
+	private LinearLayout newsDetailImages;
 	
 	private News thisNews;
 	private Bundle myBundle;
@@ -132,8 +143,10 @@ public class PageNewsDetailActivity extends Activity {
 		// TODO Auto-generated method stub
     	textNewsSource = (TextView) findViewById (R.id.text_news_source);
     	textNewsTitle = (TextView) findViewById (R.id.text_news_title);
-    	textNewsContent = (TextView) findViewById (R.id.text_news_content);
+//    	textNewsContent = (TextView) findViewById (R.id.text_news_content);
     	textNewsDatetime = (TextView) findViewById (R.id.text_news_datetime);
+    	newsScrollView =(ScrollView) findViewById (R.id.news_detail_scrollview);
+    	newsDetailImages =(LinearLayout) findViewById (R.id.news_detail_images);
     	buttonUp = (Button) findViewById (R.id.button_up);
     	buttonDown = (Button) findViewById (R.id.button_down);
     	
@@ -142,10 +155,13 @@ public class PageNewsDetailActivity extends Activity {
             	if(newsPosition == 0){
             		Toast.makeText(getApplicationContext(), "無上一則", Toast.LENGTH_SHORT).show();
             	}else{
+            		clearLayoutImages();
 	            	newsPosition = newsPosition - 1;
 	            	new UpdateNewsTask().execute();
             	}
-            }  
+            }
+
+			
         });
     	
     	buttonDown.setOnClickListener(new OnClickListener(){  
@@ -154,6 +170,7 @@ public class PageNewsDetailActivity extends Activity {
             	if(newsPosition + 1 == newsIDsArray.size()){
             		Toast.makeText(getApplicationContext(), "無下一則", Toast.LENGTH_SHORT).show();
             	}else{
+            		clearLayoutImages();
 	            	newsPosition = newsPosition + 1;
 	            	new UpdateNewsTask().execute();
             	}
@@ -165,6 +182,17 @@ public class PageNewsDetailActivity extends Activity {
             }  
         });
 	}
+    
+    private void clearLayoutImages() {
+		// TODO Auto-generated method stub
+
+			try {
+				newsDetailImages.removeViewsInLayout(0, newsDetailImages.getChildCount());
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
+		
+	}  
     
     private class loadNewsIDsTask extends AsyncTask<Void, Void, Void> {
     	
@@ -209,11 +237,43 @@ public class PageNewsDetailActivity extends Activity {
 		// TODO Auto-generated method stub
     	textNewsSource.setText(thisNews.getSource()+"---"+thisNews.getCategoryName());
     	textNewsTitle.setText(thisNews.getTitle());
-    	textNewsContent.setText(thisNews.getContent());
+//    	textNewsContent.setText(thisNews.getContent());
     	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");  
         String dateString = formatter.format(thisNews.getReleaseTime());  
     	textNewsDatetime.setText(dateString);
     	
+    	TextView textNewsContent = new TextView(this);
+    	newsDetailImages.addView(textNewsContent);
+    	LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)textNewsContent.getLayoutParams();
+    	params.setMargins(5, 5, 5, 5);
+    	textNewsContent.setLayoutParams(params); 	
+    	textNewsContent.setText(thisNews.getContent());
+    	
+    	if (thisNews.getPictures().size()>0){
+    		
+    		imageLoader = new ImageLoader(PageNewsDetailActivity.this, 150);
+    		
+    		for(int i=0; i< thisNews.getPictures().size(); i++){
+    			
+    			ImageView iv = new ImageView(this);
+    			newsDetailImages.addView(iv);
+    			LinearLayout.LayoutParams imageParams = (LinearLayout.LayoutParams)iv.getLayoutParams();
+    			imageParams.setMargins(5, 5, 5, 5);
+    			iv.setLayoutParams(imageParams);
+    			imageLoader.DisplayImage(thisNews.getPictures().get(i).getUrl(), iv);		
+    			
+    			TextView textImage = new TextView(this);
+    			newsDetailImages.addView(textImage);
+    			LinearLayout.LayoutParams imageTextParams = (LinearLayout.LayoutParams)textImage.getLayoutParams();
+    			imageTextParams.gravity = Gravity.CENTER;
+    			imageTextParams.setMargins(5, 5, 5, 5);
+    			textImage.setGravity(Gravity.CENTER);
+    	    	textNewsContent.setLayoutParams(imageTextParams);
+    	    	textImage.setText(thisNews.getPictures().get(i).getIntro());
+    				
+    		}
+    		
+    	}
     	
 	}
     

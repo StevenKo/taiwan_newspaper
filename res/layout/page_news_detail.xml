@@ -34,20 +34,21 @@
        android:textSize="15dp"
        android:layout_marginLeft="10dp"    
 	    />
-	<ScrollView
+	
+	<ScrollView android:id="@+id/news_detail_scrollview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:layout_weight="1"
 	    android:background="#3E7539"
-	     >
-		<TextView  android:id="@+id/text_news_content"
+	     >		
+		<LinearLayout android:id="@+id/news_detail_images"
 		   android:layout_width="fill_parent"
-	       android:layout_height="wrap_content"
-	       android:text="內容"
-	       android:layout_margin="5dp"
-	       android:textSize="18dp"	      
-		    />
+		   android:layout_height="wrap_content"
+		   android:orientation="vertical"
+		    >    
+		</LinearLayout>
 	</ScrollView>
+	
 	<LinearLayout android:id="@+id/linear_bottom"
 	   android:layout_width="fill_parent"
        android:layout_height="wrap_content"
