@@ -29,8 +29,36 @@
             android:screenOrientation="portrait" 
             >
         </activity>
-         <activity
+        <activity
             android:name=".PageAppleActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" 
+            >
+        </activity>
+        <activity
+            android:name=".PageFreeActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" 
+            >
+        </activity>
+        <activity
+            android:name=".PageUnoActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" 
+            >
+        </activity>
+        <activity
+            android:name=".PageChinaTimesActivity"
+            android:configChanges="keyboardHidden|orientation"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:screenOrientation="portrait" 
+            >
+        </activity>
+        <activity
+            android:name=".PageEconomicActivity"
             android:configChanges="keyboardHidden|orientation"
             android:theme="@android:style/Theme.NoTitleBar"
             android:screenOrientation="portrait" 

@@ -10,8 +10,14 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 
 
@@ -19,6 +25,7 @@ public class TabActivity extends android.app.TabActivity  {
 
 	private String str1;
 	private AdView adView;
+	private TabHost mTabHost;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -27,33 +34,77 @@ public class TabActivity extends android.app.TabActivity  {
 		setContentView(R.layout.tabbarscreen);
 		
 
-		TabHost mTabHost = getTabHost();
+		mTabHost = getTabHost();
 
-		mTabHost.addTab(mTabHost.newTabSpec("tab1")
-				.setIndicator(null,getResources().getDrawable(R.drawable.tab_apple))
-				.setContent(new Intent(this, PageAppleActivity.class)));
-
-		mTabHost.addTab(mTabHost.newTabSpec("tab2")
-				.setIndicator(null,getResources().getDrawable(R.drawable.tab_free))
-				.setContent(new Intent(this, PageAppleActivity.class)));
-
-		mTabHost.addTab(mTabHost.newTabSpec("tab3")
-				.setIndicator(null,getResources().getDrawable(R.drawable.tab_uno))
-				.setContent(new Intent(this, PageAppleActivity.class)));
-
-		mTabHost.addTab(mTabHost.newTabSpec("tab4")
-				.setIndicator(null,getResources().getDrawable(R.drawable.tab_chinese))
-				.setContent(new Intent(this, PageAppleActivity.class)));
-
-		mTabHost.addTab(mTabHost.newTabSpec("tab5")
-				.setIndicator(null,getResources().getDrawable(R.drawable.tab_eco))
-				.setContent(new Intent(this, PageAppleActivity.class)));
-
-//		mTabHost.setCurrentTab(0);
+		setupTab(PageAppleActivity.class,"tab1", R.drawable.tab_apple);
+		setupTab(PageFreeActivity.class,"tab2", R.drawable.tab_free);
+		setupTab(PageUnoActivity.class,"tab3", R.drawable.tab_uno);
+		setupTab(PageChinaTimesActivity.class,"tab4", R.drawable.tab_chinese);
+		setupTab(PageEconomicActivity.class,"tab5", R.drawable.tab_eco);
 		
-		AdTask adTask = new AdTask();
-        adTask.execute();
+		// delete rightest bar
+		View rightestTab = getTabWidget().getChildAt(4);
+		rightestTab.findViewById(R.id.tabSplitter).setVisibility(View.GONE);
+        
+        View firstTab = getTabWidget().getChildAt(0);
+        firstTab.findViewById(R.id.tabDivider).setVisibility(View.VISIBLE);
+        
+		mTabHost.setCurrentTab(0);
 		
+		
+		mTabHost.setOnTabChangedListener(new OnTabChangeListener() {
+		    @Override
+		    public void onTabChanged(String tag) {
+		        // reset some styles
+		        clearTabStyles();
+		        View tabView = null;
+		        // Use the "tag" for the tab spec to determine which tab is selected
+		        if (tag.equals("tab1")) {
+		            tabView = getTabWidget().getChildAt(0);
+		        }else if (tag.equals("tab2")) {
+		            tabView = getTabWidget().getChildAt(1);
+		        }else if (tag.equals("tab3")) {
+		            tabView = getTabWidget().getChildAt(2);
+		        }else if (tag.equals("tab4")) {
+		            tabView = getTabWidget().getChildAt(3);
+		        }else if (tag.equals("tab5")) {
+		            tabView = getTabWidget().getChildAt(4);
+		        }
+		        tabView.findViewById(R.id.tabDivider).setVisibility(View.VISIBLE);
+		    }       
+		});
+
+		
+		
+//		AdTask adTask = new AdTask();
+//       adTask.execute();
+		
+	}
+	
+	
+	
+	
+	private void setupTab(Class<?> ccls, String name, Integer iconId) {
+	    Intent intent = new Intent().setClass(this, ccls);
+
+
+	    View tab = LayoutInflater.from(this).inflate(R.layout.custom_tab_layout, null);
+	    ImageView image = (ImageView) tab.findViewById(R.id.icon);
+	    TextView text = (TextView) tab.findViewById(R.id.tabDivider);
+	    if(iconId != null){
+	        image.setImageResource(iconId);
+	    }
+
+	    TabSpec spec = mTabHost.newTabSpec(name).setIndicator(tab).setContent(intent);
+	    mTabHost.addTab(spec);
+
+	}
+	
+	private void clearTabStyles() {
+	    for (int i = 0; i < getTabWidget().getChildCount(); i++) {
+	    	View tab = getTabWidget().getChildAt(i);
+	        tab.findViewById(R.id.tabDivider).setVisibility(View.INVISIBLE);
+	    }
 	}
 	
 	public void setAd() {

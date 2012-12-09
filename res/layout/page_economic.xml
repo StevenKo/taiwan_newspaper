@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+	<LinearLayout 
+        android:layout_width="fill_parent"
+    	android:layout_height="50dp"       
+        >
+        <TextView 
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:text="經濟日報"
+            android:gravity="center_vertical"
+            android:background="#AD6E00"
+            />
+    </LinearLayout>
+    
+    <LinearLayout 
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:orientation="horizontal"   
+        >
+        <LinearLayout android:id="@+id/linear_downloading"
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:gravity="center"
+            >
+	        <ProgressBar 
+	            android:layout_width="50dp"
+	            android:layout_height="50dp"
+	            />
+	        <TextView
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text=" 下載中, 請稍候.."
+	             />
+        </LinearLayout>
+	    <Gallery android:id="@+id/gallery_economic"
+	        android:layout_width="fill_parent"
+	        android:layout_height="150dp"
+	        android:background="#B5B5B5"
+	        />
+    </LinearLayout>
+    <LinearLayout android:id="@+id/image_count"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:background="#47001D"
+        >
+    </LinearLayout>
+    
+    <ListView android:id="@+id/list_economic"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="#454544"
+        ></ListView>
+    
+</LinearLayout>
