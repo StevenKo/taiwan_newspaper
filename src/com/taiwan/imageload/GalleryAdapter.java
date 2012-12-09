@@ -22,13 +22,15 @@ public class GalleryAdapter extends BaseAdapter {
     private static LayoutInflater inflater = null;
     public ImageLoader            imageLoader;
     private final int             width;
+    private final int             height;
 
-    public GalleryAdapter(Activity a, ArrayList<News> d, int myWidth) {
+    public GalleryAdapter(Activity a, ArrayList<News> d, int myWidth, int mheight) {
         activity = a;
         data = d;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new ImageLoader(activity.getApplicationContext(), 70);
         width = myWidth;
+        height = mheight;
     }
 
     public int getCount() {
@@ -60,7 +62,7 @@ public class GalleryAdapter extends BaseAdapter {
         	
         }
 
-        vi.setLayoutParams(new Gallery.LayoutParams(width, 200));
+        vi.setLayoutParams(new Gallery.LayoutParams(width, height));
         return vi;
     }
 }

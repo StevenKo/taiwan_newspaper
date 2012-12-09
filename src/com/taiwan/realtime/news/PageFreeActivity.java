@@ -26,6 +26,7 @@ import com.taiwan.news.entity.News;
 
 
 public class PageFreeActivity extends Activity {
+	
 	private ListView            myList;
     private ListAdapter         myListAdapter;
     private Gallery             myGallery;
@@ -33,6 +34,7 @@ public class PageFreeActivity extends Activity {
     private ArrayList<Category> myCategroyArray  = new ArrayList<Category>();
     private ArrayList<News>     myPromotionArray = new ArrayList<News>();
     private int                 deviceWidth;
+    private int                 height;
     private int                 PicPosition;
     private final Handler       handler          = new Handler();
     private ProgressDialog      progressDialog   = null;
@@ -47,7 +49,9 @@ public class PageFreeActivity extends Activity {
         setContentView(R.layout.page_free);
 
         deviceWidth = PageFreeActivity.this.getWindowManager().getDefaultDisplay().getWidth();
-
+        float scale = getResources().getDisplayMetrics().density;
+        height =(int)(150*scale + 0.5f);
+        
         // download first, and then set UIs on postexecute.
         new DownloadCategoryTask().execute();
         
@@ -146,7 +150,7 @@ public class PageFreeActivity extends Activity {
        
 
         myGallery = (Gallery) findViewById(R.id.gallery_free);
-        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth);
+        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height);
         myGallery.setAdapter(myGalleryAdpter);
 
         mDotsLayout = (LinearLayout) findViewById(R.id.image_count);
@@ -208,6 +212,11 @@ public class PageFreeActivity extends Activity {
         
              
 //        runnable.run();
+    }
+    
+    @Override
+    public void onBackPressed () {
+        this.getParent().onBackPressed();
     }
     
 //    private final Runnable runnable = new Runnable() {

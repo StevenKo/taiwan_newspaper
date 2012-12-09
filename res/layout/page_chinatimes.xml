@@ -41,6 +41,7 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="150dp"
 	        android:background="#B5B5B5"
+	        android:spacing="15dp"
 	        />
     </LinearLayout>
     <LinearLayout android:id="@+id/image_count"

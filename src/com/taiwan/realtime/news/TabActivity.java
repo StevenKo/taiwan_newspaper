@@ -6,6 +6,8 @@ import com.google.ads.AdSize;
 import com.google.ads.AdView;
 import com.taiwan.news.api.NewsAPI;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.AsyncTask;
@@ -26,6 +28,7 @@ public class TabActivity extends android.app.TabActivity  {
 	private String str1;
 	private AdView adView;
 	private TabHost mTabHost;
+	private AlertDialog.Builder finishDialog;
 	
 	/** Called when the activity is first created. */
 	@Override
@@ -138,6 +141,26 @@ public class TabActivity extends android.app.TabActivity  {
 			 super.onPostExecute(result);
 
 		 }
+    }
+    
+    @Override
+    public void  onBackPressed  () {  
+			finishDialog = new AlertDialog.Builder(this).setTitle("結束執行")
+					.setMessage("是否離開即時新聞?")
+					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							finish();
+							System.exit(0);
+						}
+					})
+					.setNegativeButton("No", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					});
+			finishDialog.show();          
     }
 
 }
