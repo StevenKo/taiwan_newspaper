@@ -11,35 +11,45 @@
 	    <TextView android:id="@+id/text_news_source"
 	   android:layout_width="fill_parent"
        android:layout_height="50dp"
-       android:text="蘋果日報 --- 娛樂"
-       android:gravity="center"
-       android:layout_margin="5dp"
+       android:text="即時新聞"
        android:textSize="18dp"
-       android:background="#F27D00"
+       android:gravity="center_vertical"
+       android:background="@drawable/banner_apple"
+       android:paddingLeft="150dp"
+       android:textColor="#FFFFFF"
        />
 	</LinearLayout>
-	<TextView android:id="@+id/text_news_title"
+	<LinearLayout 
 	   android:layout_width="fill_parent"
        android:layout_height="wrap_content"
-       android:text="標題"
-       android:gravity="center"
-       android:layout_margin="5dp"
-       android:textSize="18dp"
-       android:background="#A8A8A8"
-       />
-	<TextView android:id="@+id/text_news_datetime"
-	   android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:text="2012/12/06 14:00"
-       android:textSize="15dp"
-       android:layout_marginLeft="10dp"    
-	    />
+       android:background="@drawable/title_background"
+       android:orientation="vertical"
+       >
+		<TextView android:id="@+id/text_news_title"
+		   android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:text="標題"
+	       android:gravity="center_vertical"
+	       android:textSize="18dp"
+	       android:layout_marginLeft="10dp"
+	       android:textColor="#383938"
+	       android:layout_marginTop="5dp"
+	       />
+		<TextView android:id="@+id/text_news_datetime"
+		   android:layout_width="fill_parent"
+	       android:layout_height="wrap_content"
+	       android:text="2012/12/06 14:00"
+	       android:textSize="15dp"
+	       android:layout_marginLeft="10dp"
+	       android:textColor="#898989"    
+		    />
+	</LinearLayout>
 	
 	<ScrollView android:id="@+id/news_detail_scrollview"
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
 	    android:layout_weight="1"
-	    android:background="#3E7539"
+	    android:background="#FFFFFF"
 	     >		
 		<LinearLayout android:id="@+id/news_detail_images"
 		   android:layout_width="fill_parent"
@@ -54,24 +64,28 @@
        android:layout_height="wrap_content"
        android:layout_weight="0"
 	    >
-	  <LinearLayout android:id="@+id/bottom_buttons"
+	  <RelativeLayout android:id="@+id/bottom_buttons"
 	     android:layout_width="fill_parent"
        	 android:layout_height="50dp"
-       	 android:gravity="right|center_vertical"
+       	 android:gravity="center_vertical"
        	 android:orientation="horizontal"
-       	 android:background="#4D3C18"
+       	 android:background="@drawable/buttom_background"
 	      >
 	     <Button android:id="@+id/button_up"
-	        android:layout_width="80dp"
-       	 	android:layout_height="40dp"
-       	 	android:text="上一頁"
+	        android:layout_width="83dp"
+       	 	android:layout_height="35dp"
+       	 	android:background="@drawable/last_button"
+       	 	android:layout_alignParentLeft="true"
+       	 	android:layout_marginLeft="10dp"
 	         />
 	     <Button android:id="@+id/button_down"
-	        android:layout_width="80dp"
-       	 	android:layout_height="40dp"
-       	 	android:text="下一頁"
+	        android:layout_width="83dp"
+       	 	android:layout_height="35dp"
+       	 	android:background="@drawable/next_button"
+       	 	android:layout_alignParentRight="true"
+       	 	android:layout_marginRight="10dp"
 	         />
-	  </LinearLayout>
+	  </RelativeLayout>
 	</LinearLayout>
     
     

@@ -42,6 +42,27 @@ public class PageUnoActivity extends Activity {
     private int                 mDotsCount;
     private LinearLayout        mDotsLayout;
     private LinearLayout        downLoadingLayout;
+    private Integer[] mImageIds = { 
+			R.drawable.icon_13,
+			R.drawable.icon_10, 
+			R.drawable.icon_3,
+			R.drawable.icon_0, 
+			R.drawable.icon_2,
+			R.drawable.icon_15,
+			R.drawable.icon_17,
+			R.drawable.icon_4,
+			R.drawable.icon_9};
+    private Integer[] mTagImageIds ={
+    		R.drawable.tag_13,
+			R.drawable.tag_10, 
+			R.drawable.tag_3,
+			R.drawable.tag_0,
+			R.drawable.tag_2,
+			R.drawable.tag_15,
+			R.drawable.tag_17,
+			R.drawable.tag_4,
+			R.drawable.tag_9
+    		};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +113,7 @@ public class PageUnoActivity extends Activity {
     private void setListUI() {
 		// TODO Auto-generated method stub
     	 myList = (ListView) findViewById(R.id.list_uno);
-         myListAdapter = new ListAdapter(this, myCategroyArray);
+         myListAdapter = new ListAdapter(this, myCategroyArray, mImageIds);
          myList.setAdapter(myListAdapter);
          
          myList.setOnItemClickListener(new OnItemClickListener() {
@@ -150,7 +171,7 @@ public class PageUnoActivity extends Activity {
        
 
         myGallery = (Gallery) findViewById(R.id.gallery_uno);
-        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height);
+        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height, mTagImageIds);
         myGallery.setAdapter(myGalleryAdpter);
 
         mDotsLayout = (LinearLayout) findViewById(R.id.image_count);

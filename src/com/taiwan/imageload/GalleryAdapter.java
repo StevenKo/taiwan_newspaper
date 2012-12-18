@@ -23,14 +23,16 @@ public class GalleryAdapter extends BaseAdapter {
     public ImageLoader            imageLoader;
     private final int             width;
     private final int             height;
+    private Integer[] tagIDs;
 
-    public GalleryAdapter(Activity a, ArrayList<News> d, int myWidth, int mheight) {
+    public GalleryAdapter(Activity a, ArrayList<News> d, int myWidth, int mheight, Integer[] tagIds) {
         activity = a;
         data = d;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader = new ImageLoader(activity.getApplicationContext(), 70);
         width = myWidth;
         height = mheight;
+        tagIDs = tagIds;
     }
 
     public int getCount() {
@@ -56,6 +58,7 @@ public class GalleryAdapter extends BaseAdapter {
 
         textTitle.setText(data.get(position).getTitle());
         textCategory.setText(data.get(position).getCategoryName());
+        textCategory.setBackgroundResource(tagIDs[position]);
         try{
         	imageLoader.DisplayImage(data.get(position).getPictures().get(0).getUrl(), image);
         }catch(Exception e){

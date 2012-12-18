@@ -42,6 +42,37 @@ public class PageChinaTimesActivity extends Activity {
     private int                 mDotsCount;
     private LinearLayout        mDotsLayout;
     private LinearLayout        downLoadingLayout;
+    private Integer[] mImageIds = { 
+			R.drawable.icon_8,
+			R.drawable.icon_6, 
+			R.drawable.icon_15,
+			R.drawable.icon_1,
+			R.drawable.icon_0,
+			R.drawable.icon_2,
+			R.drawable.icon_10,
+			R.drawable.icon_3,
+			R.drawable.icon_4, 
+			R.drawable.icon_18,
+			R.drawable.icon_11, 
+			R.drawable.icon_17,
+			R.drawable.icon_12,
+			R.drawable.icon_14};
+    private Integer[] mTagImageIds ={
+    		R.drawable.tag_8,
+			R.drawable.tag_6, 
+			R.drawable.tag_15,
+			R.drawable.tag_5,
+			R.drawable.tag_0,
+			R.drawable.tag_2,
+			R.drawable.tag_10,
+			R.drawable.tag_3,
+			R.drawable.tag_4, 
+			R.drawable.tag_7,
+			R.drawable.tag_11, 
+			R.drawable.tag_17,
+			R.drawable.tag_12,
+			R.drawable.tag_14
+    		};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +123,7 @@ public class PageChinaTimesActivity extends Activity {
     private void setListUI() {
 		// TODO Auto-generated method stub
     	 myList = (ListView) findViewById(R.id.list_chinatimes);
-         myListAdapter = new ListAdapter(this, myCategroyArray);
+         myListAdapter = new ListAdapter(this, myCategroyArray, mImageIds);
          myList.setAdapter(myListAdapter);
          
          myList.setOnItemClickListener(new OnItemClickListener() {
@@ -150,7 +181,7 @@ public class PageChinaTimesActivity extends Activity {
        
 
         myGallery = (Gallery) findViewById(R.id.gallery_chinatimes);
-        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height);
+        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height, mTagImageIds);
         myGallery.setAdapter(myGalleryAdpter);
 
         mDotsLayout = (LinearLayout) findViewById(R.id.image_count);

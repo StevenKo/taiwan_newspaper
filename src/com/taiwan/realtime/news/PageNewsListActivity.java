@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class PageNewsListActivity extends Activity {
 
@@ -32,11 +33,14 @@ public class PageNewsListActivity extends Activity {
 	private TextView textCategory;
 	private String sourceName;
 	private String categoryName;
+	private Boolean loadOrNot = true;
+	private Boolean first = true;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_news_list);
+        textCategory = (TextView) findViewById(R.id.text_category);
         
         mBundle = this.getIntent().getExtras(); 
         sourceInt = mBundle.getInt("SourceInt");
@@ -44,13 +48,30 @@ public class PageNewsListActivity extends Activity {
         sourceName = mBundle.getString("SourceName");
         categoryName = mBundle.getString("CategoryName");
         
+        changeTitleBanner();
+        
         new LoadDataTaskFirst().execute();
 
 		
         
    	}
     
-    private class LoadDataTaskFirst extends AsyncTask<Void, Void, Void> {
+    private void changeTitleBanner() {
+		if(sourceInt == 1){
+			textCategory.setBackgroundResource(R.drawable.banner_apple);
+		}else if(sourceInt == 2){
+			textCategory.setBackgroundResource(R.drawable.banner_free);
+		}else if(sourceInt == 3){
+			textCategory.setBackgroundResource(R.drawable.banner_uno);
+		}else if(sourceInt == 4){
+			textCategory.setBackgroundResource(R.drawable.banner_chinatimes);
+		}else if(sourceInt == 5){
+			textCategory.setBackgroundResource(R.drawable.banner_eco);
+		}
+		
+	}
+
+	private class LoadDataTaskFirst extends AsyncTask<Void, Void, Void> {
 
 		@Override
 		protected Void doInBackground(Void... params) {
@@ -76,10 +97,10 @@ public class PageNewsListActivity extends Activity {
     
     private void setList() {
 		
-    	textCategory = (TextView) findViewById(R.id.text_category);
+    	
     	myList = (LoadMoreListView) findViewById(R.id.news_list);
         
-    	textCategory.setText(sourceName+" --- "+categoryName);
+    	textCategory.setText(categoryName);
     	
     	myListNewsAdapter = new ListNewsAdapter(this,myNewsArray);
     	myList.setAdapter(myListNewsAdapter);
@@ -87,8 +108,9 @@ public class PageNewsListActivity extends Activity {
     	myList.setOnLoadMoreListener(new OnLoadMoreListener() {
 			public void onLoadMore() {
 				// Do the work to load more items at the end of list
-				// here
+				
 				new LoadDataTask().execute();
+				
 			}
 		});
 
@@ -128,12 +150,20 @@ public class PageNewsListActivity extends Activity {
 		@Override
 		protected Void doInBackground(Void... params) {
 			
-			pageNum = pageNum + 1;
-			ArrayList<News> addArray = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
-			
-			for (int i = 0; i < addArray.size(); i++)
+			if (loadOrNot){
+				pageNum = pageNum + 1;
+				ArrayList<News> addArray = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
 				
-				myNewsArray.add(addArray.get(i));
+				if(addArray.size()==0){
+					loadOrNot = false;
+					pageNum = pageNum -1;			
+				}else{			
+					for (int i = 0; i < addArray.size(); i++){
+						myNewsArray.add(addArray.get(i));
+					}
+				}
+			}
+			
 
 			return null;
 		}
@@ -141,10 +171,12 @@ public class PageNewsListActivity extends Activity {
 		@Override
 		protected void onPostExecute(Void result) {
 
-
+			if(!loadOrNot && first){
+				Toast.makeText(getApplicationContext(), "無下一則",Toast.LENGTH_SHORT).show();
+				first = false; // toast only one times
+			}
 			// We need notify the adapter that the data have been changed
 			myListNewsAdapter.notifyDataSetChanged();
-
 			// Call onLoadMoreComplete when the LoadMore task, has finished
 			myList.onLoadMoreComplete();
 

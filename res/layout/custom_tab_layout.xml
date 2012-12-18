@@ -3,11 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="55dp"
     android:orientation="horizontal"
-    android:background="#DEDEDE"
     android:gravity="center_vertical"
    >
     
-    <LinearLayout 
+    
+     <ImageView
+	        android:id="@+id/icon"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_gravity="center"
+	        android:padding="5dp"
+		/>
+    
+    
+    <!-- <LinearLayout 
         android:layout_width="fill_parent"
         android:layout_height="55dp"
         android:layout_weight="1"
@@ -32,12 +41,12 @@
 	         />
     </LinearLayout>
     
-    <TextView
+		<TextView
         android:id="@+id/tabSplitter"
         android:layout_width="1dp"
         android:layout_height="45dp"
         android:background="#333" 
         android:layout_weight="0"
-        />
+        /> -->
 
 </LinearLayout>

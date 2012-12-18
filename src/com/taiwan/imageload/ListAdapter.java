@@ -19,13 +19,15 @@ public class ListAdapter extends BaseAdapter {
     private Activity activity;
     private ArrayList<Category> data;
     private static LayoutInflater inflater=null;
-    public ImageLoader imageLoader; 
+    public ImageLoader imageLoader;
+    private Integer[] imgIDs;
     
-    public ListAdapter(Activity a, ArrayList<Category> d) {
+    public ListAdapter(Activity a, ArrayList<Category> d, Integer[] imgId) {
         activity = a;
         data=d;
         inflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageLoader=new ImageLoader(activity.getApplicationContext());
+        imgIDs = imgId;
     }
 
     public int getCount() {
@@ -45,8 +47,9 @@ public class ListAdapter extends BaseAdapter {
         if(convertView==null)
             vi = inflater.inflate(R.layout.item_list, null);
 	        TextView text=(TextView)vi.findViewById(R.id.text_list);;
+	        ImageView image = (ImageView)vi.findViewById(R.id.image_list);
 	        text.setText(data.get(position).getCateName());
-	        
+	        image.setImageResource(imgIDs[position]);
         return vi;
     }
 }

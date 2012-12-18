@@ -58,6 +58,7 @@ public class PageNewsDetailActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_news_detail);
+        textNewsSource = (TextView) findViewById (R.id.text_news_source);
         
         myBundle = this.getIntent().getExtras(); 
         newsIDs = myBundle.getIntArray("NewsIDs");
@@ -66,6 +67,7 @@ public class PageNewsDetailActivity extends Activity {
         newsPosition = myBundle.getInt("NewsPosition");
         pageNum = myBundle.getInt("PageNum");
         
+        changeTitleBanner();
         pourNewsIDs();
         
         if(newsIDs.length == 1){
@@ -75,7 +77,22 @@ public class PageNewsDetailActivity extends Activity {
         new LoadNewsTask().execute();
         
    	}
-   
+    
+    private void changeTitleBanner() {
+		if(sourceInt == 1){
+			textNewsSource.setBackgroundResource(R.drawable.banner_apple);
+		}else if(sourceInt == 2){
+			textNewsSource.setBackgroundResource(R.drawable.banner_free);
+		}else if(sourceInt == 3){
+			textNewsSource.setBackgroundResource(R.drawable.banner_uno);
+		}else if(sourceInt == 4){
+			textNewsSource.setBackgroundResource(R.drawable.banner_chinatimes);
+		}else if(sourceInt == 5){
+			textNewsSource.setBackgroundResource(R.drawable.banner_eco);
+		}
+		
+	}
+    
     private void pourNewsIDs() {
 		// TODO Auto-generated method stub
 		for(int i=0; i< newsIDs.length;i++){
@@ -141,7 +158,7 @@ public class PageNewsDetailActivity extends Activity {
     
     private void findUIs() {
 		// TODO Auto-generated method stub
-    	textNewsSource = (TextView) findViewById (R.id.text_news_source);
+    	
     	textNewsTitle = (TextView) findViewById (R.id.text_news_title);
 //    	textNewsContent = (TextView) findViewById (R.id.text_news_content);
     	textNewsDatetime = (TextView) findViewById (R.id.text_news_datetime);
@@ -235,7 +252,7 @@ public class PageNewsDetailActivity extends Activity {
     
     private void setUIs() {
 		// TODO Auto-generated method stub
-    	textNewsSource.setText(thisNews.getSource()+"---"+thisNews.getCategoryName());
+    	textNewsSource.setText(thisNews.getCategoryName());
     	textNewsTitle.setText(thisNews.getTitle());
 //    	textNewsContent.setText(thisNews.getContent());
     	SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd HH:mm");  
@@ -246,7 +263,8 @@ public class PageNewsDetailActivity extends Activity {
     	newsDetailImages.addView(textNewsContent);
     	LinearLayout.LayoutParams params = (LinearLayout.LayoutParams)textNewsContent.getLayoutParams();
     	params.setMargins(5, 5, 5, 5);
-    	textNewsContent.setLayoutParams(params); 	
+    	textNewsContent.setLayoutParams(params);
+    	textNewsContent.setTextColor(getResources().getColor(R.color.news_detail_content));
     	textNewsContent.setText(thisNews.getContent());
     	
     	if (thisNews.getPictures().size()>0){

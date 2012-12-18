@@ -41,7 +41,12 @@ public class PageEconomicActivity extends Activity {
     private int                 mDotsCount;
     private LinearLayout        mDotsLayout;
     private LinearLayout        downLoadingLayout;
-
+    private Integer[] mImageIds = { 
+			R.drawable.icon_1};
+    private Integer[] mTagImageIds ={
+    		R.drawable.tag_1,
+    		};
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +96,7 @@ public class PageEconomicActivity extends Activity {
     private void setListUI() {
 		// TODO Auto-generated method stub
     	 myList = (ListView) findViewById(R.id.list_economic);
-         myListAdapter = new ListAdapter(this, myCategroyArray);
+         myListAdapter = new ListAdapter(this, myCategroyArray, mImageIds);
          myList.setAdapter(myListAdapter);
          
          myList.setOnItemClickListener(new OnItemClickListener() {
@@ -149,7 +154,7 @@ public class PageEconomicActivity extends Activity {
        
 
         myGallery = (Gallery) findViewById(R.id.gallery_economic);
-        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height);
+        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height, mTagImageIds);
         myGallery.setAdapter(myGalleryAdpter);
 
         mDotsLayout = (LinearLayout) findViewById(R.id.image_count);

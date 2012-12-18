@@ -39,18 +39,18 @@ public class TabActivity extends android.app.TabActivity  {
 
 		mTabHost = getTabHost();
 
-		setupTab(PageAppleActivity.class,"tab1", R.drawable.tab_apple);
+		setupTab(PageAppleActivity.class,"tab1", R.drawable.tab_apple_press);
 		setupTab(PageFreeActivity.class,"tab2", R.drawable.tab_free);
 		setupTab(PageUnoActivity.class,"tab3", R.drawable.tab_uno);
-		setupTab(PageChinaTimesActivity.class,"tab4", R.drawable.tab_chinese);
+		setupTab(PageChinaTimesActivity.class,"tab4", R.drawable.tab_chinatimes);
 		setupTab(PageEconomicActivity.class,"tab5", R.drawable.tab_eco);
 		
 		// delete rightest bar
-		View rightestTab = getTabWidget().getChildAt(4);
-		rightestTab.findViewById(R.id.tabSplitter).setVisibility(View.GONE);
+//		View rightestTab = getTabWidget().getChildAt(4);
+//		rightestTab.findViewById(R.id.tabSplitter).setVisibility(View.GONE);
         
-        View firstTab = getTabWidget().getChildAt(0);
-        firstTab.findViewById(R.id.tabDivider).setVisibility(View.VISIBLE);
+//        View firstTab = getTabWidget().getChildAt(0);
+//        firstTab.findViewById(R.id.tabDivider).setVisibility(View.VISIBLE);
         
 		mTabHost.setCurrentTab(0);
 		
@@ -64,16 +64,26 @@ public class TabActivity extends android.app.TabActivity  {
 		        // Use the "tag" for the tab spec to determine which tab is selected
 		        if (tag.equals("tab1")) {
 		            tabView = getTabWidget().getChildAt(0);
+		            ImageView image = (ImageView) tabView.findViewById(R.id.icon);
+			        image.setImageResource(R.drawable.tab_apple_press);
 		        }else if (tag.equals("tab2")) {
 		            tabView = getTabWidget().getChildAt(1);
+		            ImageView image = (ImageView) tabView.findViewById(R.id.icon);
+			        image.setImageResource(R.drawable.tab_free_press);
 		        }else if (tag.equals("tab3")) {
 		            tabView = getTabWidget().getChildAt(2);
+		            ImageView image = (ImageView) tabView.findViewById(R.id.icon);
+			        image.setImageResource(R.drawable.tab_uno_press);
 		        }else if (tag.equals("tab4")) {
 		            tabView = getTabWidget().getChildAt(3);
+		            ImageView image = (ImageView) tabView.findViewById(R.id.icon);
+			        image.setImageResource(R.drawable.tab_chinatimes_press);
 		        }else if (tag.equals("tab5")) {
 		            tabView = getTabWidget().getChildAt(4);
+		            ImageView image = (ImageView) tabView.findViewById(R.id.icon);
+			        image.setImageResource(R.drawable.tab_eco_press);
 		        }
-		        tabView.findViewById(R.id.tabDivider).setVisibility(View.VISIBLE);
+		        
 		    }       
 		});
 
@@ -93,7 +103,7 @@ public class TabActivity extends android.app.TabActivity  {
 
 	    View tab = LayoutInflater.from(this).inflate(R.layout.custom_tab_layout, null);
 	    ImageView image = (ImageView) tab.findViewById(R.id.icon);
-	    TextView text = (TextView) tab.findViewById(R.id.tabDivider);
+//	    TextView text = (TextView) tab.findViewById(R.id.tabDivider);
 	    if(iconId != null){
 	        image.setImageResource(iconId);
 	    }
@@ -106,7 +116,18 @@ public class TabActivity extends android.app.TabActivity  {
 	private void clearTabStyles() {
 	    for (int i = 0; i < getTabWidget().getChildCount(); i++) {
 	    	View tab = getTabWidget().getChildAt(i);
-	        tab.findViewById(R.id.tabDivider).setVisibility(View.INVISIBLE);
+	    	ImageView image = (ImageView) tab.findViewById(R.id.icon);
+	        if(i==0){
+	        	image.setImageResource(R.drawable.tab_apple);
+	        }else if(i==1){
+	        	image.setImageResource(R.drawable.tab_free);
+	        }else if(i==2){
+	        	image.setImageResource(R.drawable.tab_uno);
+	        }else if(i==3){
+	        	image.setImageResource(R.drawable.tab_chinatimes);
+	        }else if(i==4){
+	        	image.setImageResource(R.drawable.tab_eco);
+	        }
 	    }
 	}
 	

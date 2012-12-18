@@ -6,15 +6,16 @@
     
 	<LinearLayout 
         android:layout_width="fill_parent"
-    	android:layout_height="50dp"       
+    	android:layout_height="50dp"
+    	android:background="@drawable/banner_eco"                 
         >
-        <TextView 
+        <!-- <TextView 
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:text="經濟日報"
             android:gravity="center_vertical"
             android:background="#AD6E00"
-            />
+            /> -->
     </LinearLayout>
     
     <LinearLayout 
@@ -49,14 +50,16 @@
         android:layout_height="20dp"
         android:orientation="horizontal"
         android:gravity="center"
-        android:background="#47001D"
+        android:background="#383938"
         >
     </LinearLayout>
     
     <ListView android:id="@+id/list_economic"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="#454544"
+        android:background="#FFFFFF"
+        android:divider="#C7C7C7"
+        android:dividerHeight="1dp"
         ></ListView>
     
 </LinearLayout>

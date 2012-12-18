@@ -7,16 +7,22 @@
      <TextView android:id="@+id/text_category"
         android:layout_width="fill_parent"
         android:layout_height="50dp"
-        android:text="娛樂"
+        android:text="即時新聞"
         android:gravity="center_vertical"
-        android:background="#F27D00"
+        android:paddingLeft="150dp"
+        android:background="@drawable/banner_apple"
+        android:textColor="#FFFFFF"
+        android:textSize="15dp"
+        android:paddingTop="3dp"
         />
     <!-- We have to indicate that the listview is now a LoadMoreListView -->
     <com.costum.android.widget.LoadMoreListView
         android:id="@+id/news_list"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" 
-        android:background="#454544"/>
+        android:background="#FFFFFF"
+        android:divider="#C7C7C7"
+        android:dividerHeight="1dp"/>
     
 
 </LinearLayout>

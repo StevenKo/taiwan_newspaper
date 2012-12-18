@@ -42,6 +42,27 @@ public class PageFreeActivity extends Activity {
     private int                 mDotsCount;
     private LinearLayout        mDotsLayout;
     private LinearLayout        downLoadingLayout;
+    private Integer[] mImageIds = { 
+			R.drawable.icon_9,
+			R.drawable.icon_15, 
+			R.drawable.icon_6,
+			R.drawable.icon_11, 
+			R.drawable.icon_2,
+			R.drawable.icon_17,
+			R.drawable.icon_5,
+			R.drawable.icon_16,
+			R.drawable.icon_10};
+    private Integer[] mTagImageIds ={
+    		R.drawable.tag_9,
+			R.drawable.tag_15, 
+			R.drawable.tag_6,
+			R.drawable.tag_11,
+			R.drawable.tag_2,
+			R.drawable.tag_17,
+			R.drawable.tag_5,
+			R.drawable.tag_16,
+			R.drawable.tag_10
+    		};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -92,7 +113,7 @@ public class PageFreeActivity extends Activity {
     private void setListUI() {
 		// TODO Auto-generated method stub
     	 myList = (ListView) findViewById(R.id.list_free);
-         myListAdapter = new ListAdapter(this, myCategroyArray);
+         myListAdapter = new ListAdapter(this, myCategroyArray, mImageIds);
          myList.setAdapter(myListAdapter);
          
          myList.setOnItemClickListener(new OnItemClickListener() {
@@ -150,7 +171,7 @@ public class PageFreeActivity extends Activity {
        
 
         myGallery = (Gallery) findViewById(R.id.gallery_free);
-        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height);
+        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height,mTagImageIds);
         myGallery.setAdapter(myGalleryAdpter);
 
         mDotsLayout = (LinearLayout) findViewById(R.id.image_count);
