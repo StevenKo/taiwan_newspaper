@@ -11,6 +11,7 @@ import com.taiwan.news.entity.News;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -51,6 +52,7 @@ public class PageNewsDetailActivity extends Activity {
 	private int sourceInt;
 	private int categoryInt;
 	private int pageNum;
+	private int contentTextSize;
 	
 	private ArrayList<News> newCategoryNews;
 	
@@ -68,6 +70,7 @@ public class PageNewsDetailActivity extends Activity {
         pageNum = myBundle.getInt("PageNum");
         
         changeTitleBanner();
+        contentTextSize = dip2px(this, 10);
         pourNewsIDs();
         
         if(newsIDs.length == 1){
@@ -99,6 +102,11 @@ public class PageNewsDetailActivity extends Activity {
 			newsIDsArray.add(newsIDs[i]);
 		}
 	}
+    
+    public static int dip2px(Context context, float dpValue) {
+    	  final float scale = context.getResources().getDisplayMetrics().density;
+    	  return (int) (dpValue * scale + 0.5f);
+    	}
 
 	private class LoadNewsTask extends AsyncTask<Void, Void, Void> {
     	
@@ -168,13 +176,15 @@ public class PageNewsDetailActivity extends Activity {
     	buttonDown = (Button) findViewById (R.id.button_down);
     	
     	buttonUp.setOnClickListener(new OnClickListener(){  
-            public void onClick(View v) { 
-            	if(newsPosition == 0){
-            		Toast.makeText(getApplicationContext(), "無上一則", Toast.LENGTH_SHORT).show();
-            	}else{
-            		clearLayoutImages();
-	            	newsPosition = newsPosition - 1;
-	            	new UpdateNewsTask().execute();
+            public void onClick(View v) {
+            	if(!progressDialog.isShowing()){
+	            	if(newsPosition == 0){
+	            		Toast.makeText(getApplicationContext(), "無上一則", Toast.LENGTH_SHORT).show();
+	            	}else{
+	            		clearLayoutImages();
+		            	newsPosition = newsPosition - 1;
+		            	new UpdateNewsTask().execute();
+	            	}
             	}
             }
 
@@ -183,13 +193,14 @@ public class PageNewsDetailActivity extends Activity {
     	
     	buttonDown.setOnClickListener(new OnClickListener(){  
             public void onClick(View v) {
-            	
-            	if(newsPosition + 1 == newsIDsArray.size()){
-            		Toast.makeText(getApplicationContext(), "無下一則", Toast.LENGTH_SHORT).show();
-            	}else{
-            		clearLayoutImages();
-	            	newsPosition = newsPosition + 1;
-	            	new UpdateNewsTask().execute();
+            	if(!progressDialog.isShowing()){
+	            	if(newsPosition + 1 == newsIDsArray.size()){
+	            		Toast.makeText(getApplicationContext(), "無下一則", Toast.LENGTH_SHORT).show();
+	            	}else{
+	            		clearLayoutImages();
+		            	newsPosition = newsPosition + 1;
+		            	new UpdateNewsTask().execute();
+	            	}
             	}
             	
             	if(LoadOrNot && newsIDsArray.size()- newsPosition < 5){
@@ -265,6 +276,7 @@ public class PageNewsDetailActivity extends Activity {
     	params.setMargins(5, 5, 5, 5);
     	textNewsContent.setLayoutParams(params);
     	textNewsContent.setTextColor(getResources().getColor(R.color.news_detail_content));
+    	textNewsContent.setTextSize(contentTextSize);
     	textNewsContent.setText(thisNews.getContent());
     	
     	if (thisNews.getPictures().size()>0){
@@ -287,6 +299,7 @@ public class PageNewsDetailActivity extends Activity {
     			imageTextParams.setMargins(5, 5, 5, 5);
     			textImage.setGravity(Gravity.CENTER);
     	    	textNewsContent.setLayoutParams(imageTextParams);
+    	    	textImage.setTextSize(contentTextSize);
     	    	textImage.setText(thisNews.getPictures().get(i).getIntro());
     				
     		}
