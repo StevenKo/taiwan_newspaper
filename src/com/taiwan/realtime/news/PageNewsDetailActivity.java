@@ -10,6 +10,7 @@ import com.adwhirl.AdWhirlManager;
 import com.adwhirl.AdWhirlTargeting;
 import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
 import com.google.ads.AdView;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.taiwan.imageload.ImageLoader;
 import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
@@ -347,11 +348,15 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 		// TODO Auto-generated method stub		
 	}
     
+    @Override
 	protected void onStop() {
 		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
 	}
+    @Override
 	protected void onStart() {
 		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
 	}
 	protected void onDestroy() {		
 		

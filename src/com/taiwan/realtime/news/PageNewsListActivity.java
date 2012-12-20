@@ -11,6 +11,7 @@ import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
 import com.costum.android.widget.LoadMoreListView;
 import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
 import com.google.ads.AdView;
+import com.google.analytics.tracking.android.EasyTracker;
 import com.taiwan.imageload.ListNewsAdapter;
 import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
@@ -226,11 +227,15 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 		// TODO Auto-generated method stub		
 	}
     
+    @Override
 	protected void onStop() {
 		super.onStop();
+		EasyTracker.getInstance().activityStop(this); // Add this method.
 	}
+    @Override
 	protected void onStart() {
 		super.onStart();
+		EasyTracker.getInstance().activityStart(this); // Add this method.
 	}
 	protected void onDestroy() {		
 		
