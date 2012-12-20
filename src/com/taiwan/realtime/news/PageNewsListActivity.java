@@ -3,24 +3,34 @@ package com.taiwan.realtime.news;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
+
+import com.adwhirl.AdWhirlLayout;
+import com.adwhirl.AdWhirlManager;
+import com.adwhirl.AdWhirlTargeting;
+import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
 import com.costum.android.widget.LoadMoreListView;
 import com.costum.android.widget.LoadMoreListView.OnLoadMoreListener;
+import com.google.ads.AdView;
 import com.taiwan.imageload.ListNewsAdapter;
 import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
+import com.vpon.adon.android.VponDestroy;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class PageNewsListActivity extends Activity {
+public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 
 	
 	private LoadMoreListView myList;
@@ -35,6 +45,7 @@ public class PageNewsListActivity extends Activity {
 	private String categoryName;
 	private Boolean loadOrNot = true;
 	private Boolean first = true;
+	private String adWhirlKey = "9ebc42f0a4584518a55be69c3651e4b3"; //adWhirl license key
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -52,7 +63,7 @@ public class PageNewsListActivity extends Activity {
         
         new LoadDataTaskFirst().execute();
 
-		
+        setAdAdwhirl();
         
    	}
     
@@ -69,6 +80,26 @@ public class PageNewsListActivity extends Activity {
 			textCategory.setBackgroundResource(R.drawable.banner_eco);
 		}
 		
+	}
+    
+    private void setAdAdwhirl() {
+		// TODO Auto-generated method stub
+		AdWhirlManager.setConfigExpireTimeout(1000 * 60); 
+        AdWhirlTargeting.setAge(23);
+        AdWhirlTargeting.setGender(AdWhirlTargeting.Gender.MALE);
+        AdWhirlTargeting.setKeywords("online games gaming");
+        AdWhirlTargeting.setPostalCode("94123");
+        AdWhirlTargeting.setTestMode(false);
+   		
+        AdWhirlLayout adwhirlLayout = new AdWhirlLayout(this, adWhirlKey);	
+
+        RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.adonViewlist);
+        
+    	adwhirlLayout.setAdWhirlInterface(this);
+	 	 	
+	 	mainLayout.addView(adwhirlLayout);
+		
+		mainLayout.invalidate();
 	}
 
 	private class LoadDataTaskFirst extends AsyncTask<Void, Void, Void> {
@@ -190,7 +221,44 @@ public class PageNewsListActivity extends Activity {
 		}
 	}
     
+    @Override
+	public void adWhirlGeneric() {
+		// TODO Auto-generated method stub		
+	}
     
+	protected void onStop() {
+		super.onStop();
+	}
+	protected void onStart() {
+		super.onStart();
+	}
+	protected void onDestroy() {		
+		
+		VponDestroy.remove(this);
+		super.onDestroy();
+	}
+    
+    
+    public void rotationHoriztion(int beganDegree, int endDegree, AdView view) {
+		final float centerX = 320 / 2.0f;
+		final float centerY = 48 / 2.0f;
+		final float zDepth = -0.50f * view.getHeight();
+	
+		Rotate3dAnimation rotation = new Rotate3dAnimation(beganDegree, endDegree, centerX, centerY, zDepth, true);
+		rotation.setDuration(1000);
+		rotation.setInterpolator(new AccelerateInterpolator());
+		rotation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationStart(Animation animation) {
+			}
+	
+			public void onAnimationEnd(Animation animation) {
+			}
+	
+			public void onAnimationRepeat(Animation animation) {
+			}
+		});
+		view.startAnimation(rotation);
+	}
     
     
 }

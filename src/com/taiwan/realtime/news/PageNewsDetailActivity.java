@@ -5,9 +5,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import com.adwhirl.AdWhirlLayout;
+import com.adwhirl.AdWhirlManager;
+import com.adwhirl.AdWhirlTargeting;
+import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
+import com.google.ads.AdView;
 import com.taiwan.imageload.ImageLoader;
 import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
+import com.vpon.adon.android.VponDestroy;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -18,16 +25,19 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class PageNewsDetailActivity extends Activity {
+public class PageNewsDetailActivity extends Activity implements AdWhirlInterface{
 	
 	private ProgressDialog progressDialog   = null;
 	
@@ -56,6 +66,8 @@ public class PageNewsDetailActivity extends Activity {
 	
 	private ArrayList<News> newCategoryNews;
 	
+	private String adWhirlKey = "9ebc42f0a4584518a55be69c3651e4b3"; //adWhirl license key
+	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,6 +91,8 @@ public class PageNewsDetailActivity extends Activity {
         
         new LoadNewsTask().execute();
         
+        setAdAdwhirl();
+        
    	}
     
     private void changeTitleBanner() {
@@ -94,6 +108,26 @@ public class PageNewsDetailActivity extends Activity {
 			textNewsSource.setBackgroundResource(R.drawable.banner_eco);
 		}
 		
+	}
+    
+    private void setAdAdwhirl() {
+		// TODO Auto-generated method stub
+		AdWhirlManager.setConfigExpireTimeout(1000 * 60); 
+        AdWhirlTargeting.setAge(23);
+        AdWhirlTargeting.setGender(AdWhirlTargeting.Gender.MALE);
+        AdWhirlTargeting.setKeywords("online games gaming");
+        AdWhirlTargeting.setPostalCode("94123");
+        AdWhirlTargeting.setTestMode(false);
+   		
+        AdWhirlLayout adwhirlLayout = new AdWhirlLayout(this, adWhirlKey);	
+
+        RelativeLayout mainLayout = (RelativeLayout)findViewById(R.id.adonViewdetail);
+        
+    	adwhirlLayout.setAdWhirlInterface(this);
+	 	 	
+	 	mainLayout.addView(adwhirlLayout);
+		
+		mainLayout.invalidate();
 	}
     
     private void pourNewsIDs() {
@@ -306,6 +340,45 @@ public class PageNewsDetailActivity extends Activity {
     		
     	}
     	
+	}
+    
+    @Override
+	public void adWhirlGeneric() {
+		// TODO Auto-generated method stub		
+	}
+    
+	protected void onStop() {
+		super.onStop();
+	}
+	protected void onStart() {
+		super.onStart();
+	}
+	protected void onDestroy() {		
+		
+		VponDestroy.remove(this);
+		super.onDestroy();
+	}
+    
+    
+    public void rotationHoriztion(int beganDegree, int endDegree, AdView view) {
+		final float centerX = 320 / 2.0f;
+		final float centerY = 48 / 2.0f;
+		final float zDepth = -0.50f * view.getHeight();
+	
+		Rotate3dAnimation rotation = new Rotate3dAnimation(beganDegree, endDegree, centerX, centerY, zDepth, true);
+		rotation.setDuration(1000);
+		rotation.setInterpolator(new AccelerateInterpolator());
+		rotation.setAnimationListener(new Animation.AnimationListener() {
+			public void onAnimationStart(Animation animation) {
+			}
+	
+			public void onAnimationEnd(Animation animation) {
+			}
+	
+			public void onAnimationRepeat(Animation animation) {
+			}
+		});
+		view.startAnimation(rotation);
 	}
     
 }
