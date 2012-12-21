@@ -17,6 +17,7 @@ import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
 import com.vpon.adon.android.VponDestroy;
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -38,7 +39,7 @@ import android.widget.Toast;
 
 public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 
-	
+	private ProgressDialog progressDialog   = null;
 	private LoadMoreListView myList;
 	private Bundle mBundle;
 	private int sourceInt;
@@ -54,6 +55,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 	private String adWhirlKey = "9ebc42f0a4584518a55be69c3651e4b3"; //adWhirl license key
 	private LinearLayout        linearNetwork;
     private Button              btnReload;
+//    private LinearLayout        linearProgress;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
         setContentView(R.layout.page_news_list);
         textCategory = (TextView) findViewById(R.id.text_category);
         linearNetwork = (LinearLayout) findViewById(R.id.linear_network);
+//        linearProgress = (LinearLayout) findViewById(R.id.linear_progress);
         setReloadBtn();
         
         mBundle = this.getIntent().getExtras(); 
@@ -73,6 +76,9 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
         
         
         if(isOnline()){
+//        	linearProgress.setVisibility(View.VISIBLE);
+        	 progressDialog = ProgressDialog.show(PageNewsListActivity.this, null, null);
+             progressDialog.setCancelable(true);
         	new LoadDataTaskFirst().execute();
         }else{
         	linearNetwork.setVisibility(View.VISIBLE);
@@ -147,8 +153,15 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 		protected void onPostExecute(Void result) {
 			
 			setList();
-				
-
+			
+//		    if(linearProgress.getVisibility() == View.VISIBLE){
+//		    	linearProgress.setVisibility(View.GONE);
+//		    }
+			
+			if(progressDialog.isShowing()){
+		    	progressDialog.dismiss();
+		    }
+			
 			super.onPostExecute(result);
 		
 
@@ -243,7 +256,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 			myListNewsAdapter.notifyDataSetChanged();
 			// Call onLoadMoreComplete when the LoadMore task, has finished
 			myList.onLoadMoreComplete();
-
+			
 			super.onPostExecute(result);
 		}
 
@@ -307,5 +320,13 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 	    return false;
 	}
     
+    @Override
+    public void  onBackPressed  () {  
+	    if(progressDialog.isShowing()){
+	    	progressDialog.dismiss();
+	    }else{
+	    	finish();
+	    }     
+    }
     
 }

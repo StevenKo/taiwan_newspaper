@@ -1,10 +1,7 @@
 package com.taiwan.realtime.news;
 
-import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
-
 import com.adwhirl.AdWhirlLayout;
 import com.adwhirl.AdWhirlManager;
 import com.adwhirl.AdWhirlTargeting;
@@ -15,8 +12,6 @@ import com.taiwan.imageload.ImageLoader;
 import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
 import com.vpon.adon.android.VponDestroy;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -27,11 +22,9 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.Button;
-import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -167,6 +160,7 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
             // TODO Auto-generated method stub
             super.onPreExecute();
             progressDialog = ProgressDialog.show(PageNewsDetailActivity.this, null, null);
+            progressDialog.setCancelable(true);
 
         }
     	
@@ -181,7 +175,9 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			progressDialog.dismiss();
+			if(progressDialog.isShowing()){
+		    	progressDialog.dismiss();
+		    }
 			findUIs();
 			setUIs();
 		}
@@ -197,7 +193,7 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
             // TODO Auto-generated method stub
             super.onPreExecute();
             progressDialog = ProgressDialog.show(PageNewsDetailActivity.this, null, null);
-
+            progressDialog.setCancelable(true);
         }
     	
 		@Override
@@ -211,7 +207,9 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 		@Override
 		protected void onPostExecute(Void result) {
 			super.onPostExecute(result);
-			progressDialog.dismiss();
+			 if(progressDialog.isShowing()){
+			    	progressDialog.dismiss();
+			 }
 			setUIs();
 		}
 	}
@@ -413,5 +411,15 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 		});
 		view.startAnimation(rotation);
 	}
+    
+    @Override
+    public void  onBackPressed  () {  
+	    if(progressDialog.isShowing()){
+	    	progressDialog.dismiss();
+	    }else{
+	    	finish();
+	    }     
+    }
+    
     
 }

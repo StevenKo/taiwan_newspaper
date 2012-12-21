@@ -16,6 +16,19 @@
         android:paddingTop="3dp"
         />
     
+    <!-- <LinearLayout android:id="@+id/linear_progress"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:background="#FFFFFF"
+        android:visibility="gone"
+        >
+        <ProgressBar 
+	       android:layout_width="50dp"
+	       android:layout_height="50dp"
+	      />
+    </LinearLayout> -->
+     
     <LinearLayout android:id="@+id/linear_network"
             android:layout_width="fill_parent"
         	android:layout_height="fill_parent" 
