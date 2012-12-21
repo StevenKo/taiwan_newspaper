@@ -16,16 +16,21 @@ import com.taiwan.imageload.ListNewsAdapter;
 import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
 import com.vpon.adon.android.VponDestroy;
-
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.TextView;
@@ -47,12 +52,16 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 	private Boolean loadOrNot = true;
 	private Boolean first = true;
 	private String adWhirlKey = "9ebc42f0a4584518a55be69c3651e4b3"; //adWhirl license key
+	private LinearLayout        linearNetwork;
+    private Button              btnReload;
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_news_list);
         textCategory = (TextView) findViewById(R.id.text_category);
+        linearNetwork = (LinearLayout) findViewById(R.id.linear_network);
+        setReloadBtn();
         
         mBundle = this.getIntent().getExtras(); 
         sourceInt = mBundle.getInt("SourceInt");
@@ -62,11 +71,31 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
         
         changeTitleBanner();
         
-        new LoadDataTaskFirst().execute();
-
+        
+        if(isOnline()){
+        	new LoadDataTaskFirst().execute();
+        }else{
+        	linearNetwork.setVisibility(View.VISIBLE);
+        }
+        
         setAdAdwhirl();
         
    	}
+    
+    private void setReloadBtn() {
+		// TODO Auto-generated method stub
+		btnReload = (Button) findViewById(R.id.btn_list_reload);
+		btnReload.setOnClickListener(new OnClickListener(){  
+            public void onClick(View v) {
+            	if(isOnline()){
+	            	linearNetwork.setVisibility(View.GONE);
+	            	new LoadDataTaskFirst().execute();
+            	}else{
+            		Toast.makeText(getApplicationContext(), "無網路連線!", Toast.LENGTH_SHORT).show();
+            	}
+            }		
+        });
+	}
     
     private void changeTitleBanner() {
 		if(sourceInt == 1){
@@ -140,8 +169,11 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
     	myList.setOnLoadMoreListener(new OnLoadMoreListener() {
 			public void onLoadMore() {
 				// Do the work to load more items at the end of list
-				
-				new LoadDataTask().execute();
+				if(isOnline()){
+					new LoadDataTask().execute();
+				}else{
+					linearNetwork.setVisibility(View.VISIBLE);
+				}
 				
 			}
 		});
@@ -263,6 +295,16 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 			}
 		});
 		view.startAnimation(rotation);
+	}
+    
+    public boolean isOnline() {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
 	}
     
     

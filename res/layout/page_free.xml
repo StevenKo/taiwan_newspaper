@@ -23,6 +23,26 @@
         android:layout_height="150dp"
         android:orientation="horizontal"   
         >
+        <LinearLayout android:id="@+id/linear_network"
+            android:layout_width="fill_parent"
+        	android:layout_height="150dp"
+        	android:gravity="center"
+        	android:orientation="horizontal"
+        	android:background="#FFFFFF"
+        	android:visibility="gone"
+            >
+            <TextView 
+                android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="無網路連線 "
+	            android:textColor="#383938"
+                />
+            <Button android:id="@+id/btn_promotion_reload"
+                android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="重試"
+                />           
+        </LinearLayout>
         <LinearLayout android:id="@+id/linear_downloading"
             android:layout_width="fill_parent"
             android:layout_height="150dp"
@@ -43,6 +63,7 @@
 	        android:layout_height="150dp"
 	        android:background="#B5B5B5"
 	        android:spacing="15dp"
+	        android:fadingEdge="none"
 	        />
     </LinearLayout>
     <LinearLayout android:id="@+id/image_count"
@@ -60,6 +81,7 @@
         android:background="#FFFFFF"
         android:divider="#C7C7C7"
         android:dividerHeight="1dp"
+        android:cacheColorHint="#FFFFFF"
         ></ListView>
 
 </LinearLayout>

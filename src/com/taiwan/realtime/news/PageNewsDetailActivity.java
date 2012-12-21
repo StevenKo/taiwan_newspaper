@@ -20,6 +20,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -75,26 +77,41 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
         setContentView(R.layout.page_news_detail);
         textNewsSource = (TextView) findViewById (R.id.text_news_source);
         
-        myBundle = this.getIntent().getExtras(); 
-        newsIDs = myBundle.getIntArray("NewsIDs");
-        sourceInt = myBundle.getInt("SourceInt");
-        categoryInt = myBundle.getInt("CategoryInt");
-        newsPosition = myBundle.getInt("NewsPosition");
-        pageNum = myBundle.getInt("PageNum");
-        
-        changeTitleBanner();
-        contentTextSize = dip2px(this, 10);
-        pourNewsIDs();
-        
-        if(newsIDs.length == 1){
-        	new loadNewsIDsTask().execute();
+        if(isOnline()){    
+	        myBundle = this.getIntent().getExtras(); 
+	        newsIDs = myBundle.getIntArray("NewsIDs");
+	        sourceInt = myBundle.getInt("SourceInt");
+	        categoryInt = myBundle.getInt("CategoryInt");
+	        newsPosition = myBundle.getInt("NewsPosition");
+	        pageNum = myBundle.getInt("PageNum");
+	        
+	        changeTitleBanner();
+	        contentTextSize = dip2px(this, 10);
+	        pourNewsIDs();
+	        
+	        if(newsIDs.length == 1){
+	        	new loadNewsIDsTask().execute();
+	        }
+	        
+	        new LoadNewsTask().execute();
+        }else{
+        	Toast.makeText(getApplicationContext(), "無網路連線", Toast.LENGTH_SHORT).show();
+        	finish();
         }
-        
-        new LoadNewsTask().execute();
         
         setAdAdwhirl();
         
    	}
+    
+    public boolean isOnline() {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
+	}
     
     private void changeTitleBanner() {
 		if(sourceInt == 1){
@@ -212,14 +229,20 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
     	
     	buttonUp.setOnClickListener(new OnClickListener(){  
             public void onClick(View v) {
-            	if(!progressDialog.isShowing()){
-	            	if(newsPosition == 0){
-	            		Toast.makeText(getApplicationContext(), "無上一則", Toast.LENGTH_SHORT).show();
-	            	}else{
-	            		clearLayoutImages();
-		            	newsPosition = newsPosition - 1;
-		            	new UpdateNewsTask().execute();
+            	
+            	if(isOnline()){          	
+	            	if(!progressDialog.isShowing()){
+		            	if(newsPosition == 0){
+		            		Toast.makeText(getApplicationContext(), "無上一則", Toast.LENGTH_SHORT).show();
+		            	}else{
+		            		clearLayoutImages();
+			            	newsPosition = newsPosition - 1;
+			            	new UpdateNewsTask().execute();
+		            	}
 	            	}
+            	}else{
+            		Toast.makeText(getApplicationContext(), "無網路連線", Toast.LENGTH_SHORT).show();
+                	finish();
             	}
             }
 
@@ -228,18 +251,23 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
     	
     	buttonDown.setOnClickListener(new OnClickListener(){  
             public void onClick(View v) {
-            	if(!progressDialog.isShowing()){
-	            	if(newsPosition + 1 == newsIDsArray.size()){
-	            		Toast.makeText(getApplicationContext(), "無下一則", Toast.LENGTH_SHORT).show();
-	            	}else{
-	            		clearLayoutImages();
-		            	newsPosition = newsPosition + 1;
-		            	new UpdateNewsTask().execute();
+            	if(isOnline()){
+	            	if(!progressDialog.isShowing()){
+		            	if(newsPosition + 1 == newsIDsArray.size()){
+		            		Toast.makeText(getApplicationContext(), "無下一則", Toast.LENGTH_SHORT).show();
+		            	}else{
+		            		clearLayoutImages();
+			            	newsPosition = newsPosition + 1;
+			            	new UpdateNewsTask().execute();
+		            	}
 	            	}
-            	}
-            	
-            	if(LoadOrNot && newsIDsArray.size()- newsPosition < 5){
-            		new loadNewsIDsTask().execute();
+	            	
+	            	if(LoadOrNot && newsIDsArray.size()- newsPosition < 5){
+	            		new loadNewsIDsTask().execute();
+	            	}
+            	}else{
+            		Toast.makeText(getApplicationContext(), "無網路連線", Toast.LENGTH_SHORT).show();
+                	finish();
             	}
             	
             }  

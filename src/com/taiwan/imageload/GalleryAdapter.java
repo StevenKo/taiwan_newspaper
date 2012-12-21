@@ -59,11 +59,18 @@ public class GalleryAdapter extends BaseAdapter {
         textTitle.setText(data.get(position).getTitle());
         textCategory.setText(data.get(position).getCategoryName());
         textCategory.setBackgroundResource(tagIDs[position]);
-        try{
+        
+        if(data.get(position).getPictures().size()>0){
         	imageLoader.DisplayImage(data.get(position).getPictures().get(0).getUrl(), image);
-        }catch(Exception e){
-        	
+        }else{
+        	image.setImageResource(R.drawable.app_icon);
         }
+        
+//        try{
+//        	imageLoader.DisplayImage(data.get(position).getPictures().get(0).getUrl(), image);
+//        }catch(Exception e){
+//        	
+//        }
 
         vi.setLayoutParams(new Gallery.LayoutParams(width, height));
         return vi;

@@ -4,18 +4,24 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.Gallery;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemSelectedListener;
 import com.taiwan.imageload.GalleryAdapter;
@@ -42,6 +48,8 @@ public class PageFreeActivity extends Activity {
     private int                 mDotsCount;
     private LinearLayout        mDotsLayout;
     private LinearLayout        downLoadingLayout;
+    private LinearLayout        linearNetwork;
+    private Button              btnReload;
     private Integer[] mImageIds = { 
 			R.drawable.icon_9,
 			R.drawable.icon_15, 
@@ -68,6 +76,8 @@ public class PageFreeActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_free);
+        linearNetwork = (LinearLayout) findViewById(R.id.linear_network);
+        setReloadBtn();
 
         deviceWidth = PageFreeActivity.this.getWindowManager().getDefaultDisplay().getWidth();
         float scale = getResources().getDisplayMetrics().density;
@@ -76,11 +86,41 @@ public class PageFreeActivity extends Activity {
         // download first, and then set UIs on postexecute.
         new DownloadCategoryTask().execute();
         
-        new DownloadPromotionTask().execute();
+        if (isOnline()){
+            // download first, and then set UIs on postexecute.
+    	        new DownloadPromotionTask().execute();
+        }else{
+            	linearNetwork.setVisibility(View.VISIBLE);
+        }
 
     }
     
-
+    
+    private void setReloadBtn() {
+		// TODO Auto-generated method stub
+		btnReload = (Button) findViewById(R.id.btn_promotion_reload);
+		btnReload.setOnClickListener(new OnClickListener(){  
+            public void onClick(View v) {
+            	if(isOnline()){
+	            	linearNetwork.setVisibility(View.GONE);
+	            	new DownloadPromotionTask().execute();
+            	}else{
+            		Toast.makeText(getApplicationContext(), "無網路連線!", Toast.LENGTH_SHORT).show();
+            	}
+            }		
+        });
+	}
+    
+    public boolean isOnline() {
+	    ConnectivityManager cm =
+	        (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
+	}
+    
     private class DownloadCategoryTask extends AsyncTask {
 
         @Override
