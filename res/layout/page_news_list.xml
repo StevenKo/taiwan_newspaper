@@ -2,18 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    >
     
      <TextView android:id="@+id/text_category"
         android:layout_width="fill_parent"
-        android:layout_height="50dp"
+        android:layout_height="0dp"
         android:text="即時新聞"
-        android:gravity="center_vertical"
-        android:paddingLeft="150dp"
+        android:gravity="center"
+        android:paddingLeft="40dp"
         android:background="@drawable/banner_apple"
         android:textColor="#FFFFFF"
         android:textSize="15dp"
         android:paddingTop="3dp"
+        android:layout_weight="2"
         />
     
     <!-- <LinearLayout android:id="@+id/linear_progress"
@@ -31,11 +34,12 @@
      
     <LinearLayout android:id="@+id/linear_network"
             android:layout_width="fill_parent"
-        	android:layout_height="fill_parent" 
+        	android:layout_height="0dp" 
         	android:gravity="center"
         	android:orientation="horizontal"
         	android:background="#FFFFFF"
         	android:visibility="gone"
+        	android:layout_weight="17.6"
             >
             <TextView 
                 android:layout_width="wrap_content"
@@ -54,11 +58,11 @@
     <com.costum.android.widget.LoadMoreListView
         android:id="@+id/news_list"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent" 
+        android:layout_height="0dp" 
         android:background="#FFFFFF"
         android:divider="#C7C7C7"
         android:dividerHeight="1dp"
-        android:layout_weight="1"
+        android:layout_weight="17.6"
         android:cacheColorHint="#FFFFFF"
         />
     <RelativeLayout

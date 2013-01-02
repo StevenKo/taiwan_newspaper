@@ -2,67 +2,73 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical" 
+    android:gravity="center_horizontal"
+    >
     
 	<LinearLayout android:id="@+id/linear_source"
 	   android:layout_width="fill_parent"
-       android:layout_height="50dp" 
+       android:layout_height="0dp"
+       android:layout_weight="2"
 	    >
 	    <TextView android:id="@+id/text_news_source"
 	   android:layout_width="fill_parent"
-       android:layout_height="50dp"
-       android:text="即時新聞"
-       android:textSize="18dp"
-       android:gravity="center_vertical"
+       android:layout_height="fill_parent"
+       android:gravity="center"
        android:background="@drawable/banner_apple"
-       android:paddingLeft="150dp"
+       android:paddingLeft="30dp"
        android:textColor="#FFFFFF"
        />
 	</LinearLayout>
+	
 	<LinearLayout 
 	   android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:background="@drawable/title_background"
+       android:layout_height="0dp"
+       android:layout_weight="15.4"
+       android:background="#FFFFFF"
        android:orientation="vertical"
-       >
-		<TextView android:id="@+id/text_news_title"
+	    >
+		<LinearLayout 
 		   android:layout_width="fill_parent"
 	       android:layout_height="wrap_content"
-	       android:text="標題"
+	       android:background="@drawable/title_background"
+	       android:orientation="vertical"
 	       android:gravity="center_vertical"
-	       android:textSize="18dp"
-	       android:layout_marginLeft="10dp"
-	       android:textColor="#383938"
-	       android:layout_marginTop="5dp"
-	       />
-		<TextView android:id="@+id/text_news_datetime"
-		   android:layout_width="fill_parent"
-	       android:layout_height="wrap_content"
-	       android:text="2012/12/06 14:00"
-	       android:textSize="15dp"
-	       android:layout_marginLeft="10dp"
-	       android:textColor="#898989"    
-		    />
-	</LinearLayout>
-	
-	<ScrollView android:id="@+id/news_detail_scrollview"
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_weight="1"
-	    android:background="#FFFFFF"
-	     >		
-		<LinearLayout android:id="@+id/news_detail_images"
-		   android:layout_width="fill_parent"
-		   android:layout_height="wrap_content"
-		   android:orientation="vertical"
-		    >    
+	       >
+			<TextView android:id="@+id/text_news_title"
+			   android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:text="標題"
+		       android:gravity="center_vertical"
+		       android:layout_marginLeft="10dp"
+		       android:textColor="#383938"
+		       android:layout_marginTop="5dp"
+		       />
+			<TextView android:id="@+id/text_news_datetime"
+			   android:layout_width="fill_parent"
+		       android:layout_height="wrap_content"
+		       android:text="2012/12/06 14:00"
+		       android:layout_marginLeft="10dp"
+		       android:textColor="#898989"    
+			    />
 		</LinearLayout>
-	</ScrollView>
+		<ScrollView android:id="@+id/news_detail_scrollview"
+		    android:layout_width="fill_parent"
+		    android:layout_height="fill_parent"
+		    android:background="#FFFFFF"
+		     >		
+			<LinearLayout android:id="@+id/news_detail_images"
+			   android:layout_width="fill_parent"
+			   android:layout_height="wrap_content"
+			   android:orientation="vertical"
+			    >    
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>
 	
 	<LinearLayout android:id="@+id/linear_bottom"
 	   android:layout_width="fill_parent"
        android:layout_height="wrap_content"
-       android:layout_weight="0"
 	    >
 	  <RelativeLayout android:id="@+id/bottom_buttons"
 	     android:layout_width="fill_parent"

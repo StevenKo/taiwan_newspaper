@@ -72,6 +72,11 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
         sourceName = mBundle.getString("SourceName");
         categoryName = mBundle.getString("CategoryName");
         
+        float scale = getResources().getDisplayMetrics().density;
+        float textSize = 1/scale *30;
+        textCategory.setTextSize(textSize);
+        textCategory.setText(categoryName);
+        
         changeTitleBanner();
         
         
@@ -174,7 +179,8 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
     	
     	myList = (LoadMoreListView) findViewById(R.id.news_list);
         
-    	textCategory.setText(categoryName);
+    	
+    	
     	
     	myListNewsAdapter = new ListNewsAdapter(this,myNewsArray);
     	myList.setAdapter(myListNewsAdapter);

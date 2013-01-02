@@ -102,8 +102,9 @@ public class TabActivity extends android.app.TabActivity  implements AdWhirlInte
 		
 		setAdAdwhirl();
 		
+		
 //		AdTask adTask = new AdTask();
-//       adTask.execute();
+//        adTask.execute();
 		
 	}
 	

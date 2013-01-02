@@ -226,7 +226,9 @@ public class PageFreeActivity extends Activity {
             mDotsText[i].setTextSize(30);
             mDotsText[i].setTypeface(null, Typeface.BOLD);
             mDotsText[i].setTextColor(android.graphics.Color.GRAY);
-            mDotsText[i].setPadding(5, -30, 5, 5);
+            float scale = getResources().getDisplayMetrics().density;
+            int bottomPadding =(int)(22*scale + 0.5f);
+            mDotsText[i].setPadding(5, -bottomPadding, 5, 5);
             mDotsLayout.addView(mDotsText[i]);
 
         }

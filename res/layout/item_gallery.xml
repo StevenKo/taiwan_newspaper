@@ -2,46 +2,58 @@
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   android:layout_width="fill_parent"
-  android:layout_height="wrap_content"
+  android:layout_height="fill_parent"
   android:orientation="vertical"
   >
   
   <LinearLayout
       android:layout_width="fill_parent"
-	  android:layout_height="150dp"
+	  android:layout_height="fill_parent"
 	  android:orientation="vertical"
 	  >
-	  <ImageView
-	  	  android:id="@+id/image_gallery"
+	  
+      
+      <RelativeLayout
+	      android:layout_width="fill_parent"
+		  android:layout_height="0dp"
+		  android:layout_weight="5"
+	       >
+		  <ImageView
+		  	  android:id="@+id/image_gallery"
+			  android:layout_width="fill_parent"
+			  android:layout_height="fill_parent"
+			  android:src="@drawable/stub"
+			  />
+		   <TextView
+		  	  android:id="@+id/text_gallery_category"
+		  	  android:layout_width="wrap_content"
+			  android:layout_height="28dp"
+			  android:textSize="15dp"
+			  android:text="頭條新聞"
+			  android:background="@drawable/tag_0"
+			  android:padding="0dp"
+			  android:textColor="#FFFFFF"
+			  android:layout_marginLeft="10dp"
+			  android:layout_marginBottom="-3.5dp"
+			  android:gravity="center"
+			  android:layout_alignBottom="@id/image_gallery"
+			  />
+	   </RelativeLayout>  
+		<TextView
+		  android:id="@+id/text_gallery_title"
 		  android:layout_width="fill_parent"
-		  android:layout_height="122dp" android:src="@drawable/stub"
-		  />
-	 
-	  <TextView
-	  	  android:id="@+id/text_gallery_title"
-	  	  android:layout_width="fill_parent"
-		  android:layout_height="30dp"
+		  android:layout_height="0dp"
 		  android:textSize="18dp" 
 		  android:text="ttt"
 		  android:gravity="center_vertical"
 		  android:background="#383938"
-	  	  android:textColor="#FFFFFF"
-	  	  android:paddingLeft="10dp"
-	  	  android:singleLine="true" 
+		  android:textColor="#FFFFFF"
+		  android:paddingLeft="10dp"
+		  android:singleLine="true" 
 		  android:ellipsize="end"
-		  />
-	   <TextView
-  	  android:id="@+id/text_gallery_category"
-  	  android:layout_width="wrap_content"
-	  android:layout_height="28dp"
-	  android:textSize="15dp"
-	  android:text="頭條新聞"
-	  android:background="@drawable/tag_0"
-	  android:padding="3dp"
-	  android:textColor="#FFFFFF"
-	  android:layout_marginLeft="10dp"
-	  android:layout_marginTop="-54dp"
-	  /> 	
+		  android:layout_weight="1"
+		/>
+		  
 	    
   </LinearLayout>
 

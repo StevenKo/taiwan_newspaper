@@ -29,7 +29,7 @@ public class GalleryAdapter extends BaseAdapter {
         activity = a;
         data = d;
         inflater = (LayoutInflater) activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        imageLoader = new ImageLoader(activity.getApplicationContext(), 70);
+        imageLoader = new ImageLoader(activity.getApplicationContext(), 100);
         width = myWidth;
         height = mheight;
         tagIDs = tagIds;
@@ -72,7 +72,7 @@ public class GalleryAdapter extends BaseAdapter {
 //        	
 //        }
 
-        vi.setLayoutParams(new Gallery.LayoutParams(width, height));
+//        vi.setLayoutParams(new Gallery.LayoutParams(width, height));
         return vi;
     }
 }
