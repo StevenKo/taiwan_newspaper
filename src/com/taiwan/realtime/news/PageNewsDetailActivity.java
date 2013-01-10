@@ -210,7 +210,13 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 			 if(progressDialog.isShowing()){
 			    	progressDialog.dismiss();
 			 }
-			setUIs();
+			if(thisNews!= null){
+				newsScrollView.fullScroll(ScrollView.FOCUS_UP);
+				setUIs();
+			}else{
+				Toast.makeText(getApplicationContext(), "無網路連線", Toast.LENGTH_SHORT).show();
+	        	finish();
+			}
 		}
 	}
     
@@ -326,8 +332,8 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 		// TODO Auto-generated method stub
     	
     	float scale = getResources().getDisplayMetrics().density;
-        float textSize = 1/scale *30;
-    	float dateSize = 1/scale *25;
+        float textSize = 1/scale *31;
+    	float dateSize = 1/scale *29;
         
         textNewsSource.setTextSize(textSize);
         textNewsTitle.setTextSize(textSize);
@@ -372,6 +378,7 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
     			textImage.setGravity(Gravity.CENTER);
     	    	textNewsContent.setLayoutParams(imageTextParams);
     	    	textImage.setTextSize(dateSize);
+    	    	textImage.setTextColor(android.graphics.Color.GRAY);
     	    	textImage.setText(thisNews.getPictures().get(i).getIntro());
     				
     		}

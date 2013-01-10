@@ -63,7 +63,7 @@
 	    <Gallery android:id="@+id/gallery_chinatimes"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
-	        android:background="#B5B5B5"
+	        android:background="@drawable/gallery_back2"
 	        android:spacing="15dp"
 	        android:fadingEdge="none"
 	        />

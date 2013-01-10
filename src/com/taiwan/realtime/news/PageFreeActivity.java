@@ -200,7 +200,17 @@ public class PageFreeActivity extends Activity {
             // TODO Auto-generated method stub
             super.onPostExecute(result);
 //          progressDialog.dismiss();
-            setGalleryUI();
+            if(myPromotionArray != null){
+            	if(myPromotionArray.size() <= 9){
+            		setGalleryUI();
+            	}else{
+            		Toast.makeText(getApplicationContext(), "資料整理中!", Toast.LENGTH_SHORT).show();
+                	linearNetwork.setVisibility(View.VISIBLE);
+            	}         	
+            }else{
+            	Toast.makeText(getApplicationContext(), "無網路連線!", Toast.LENGTH_SHORT).show();
+            	linearNetwork.setVisibility(View.VISIBLE);
+            }
 
         }
 	

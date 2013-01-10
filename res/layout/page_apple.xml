@@ -64,9 +64,9 @@
 	    <Gallery android:id="@+id/gallery_apple"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
-	        android:background="#B5B5B5"
 	        android:spacing="15dp"
 	        android:fadingEdge="none"
+	        android:background="@drawable/gallery_back2"
 	        />
     </LinearLayout>
     <LinearLayout android:id="@+id/image_count"

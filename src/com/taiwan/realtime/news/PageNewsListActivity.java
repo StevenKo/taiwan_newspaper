@@ -54,6 +54,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 	private Boolean first = true;
 	private String adWhirlKey = "9ebc42f0a4584518a55be69c3651e4b3"; //adWhirl license key
 	private LinearLayout        linearNetwork;
+	private LoadMoreListView    loadList;
     private Button              btnReload;
 //    private LinearLayout        linearProgress;
 	
@@ -63,6 +64,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
         setContentView(R.layout.page_news_list);
         textCategory = (TextView) findViewById(R.id.text_category);
         linearNetwork = (LinearLayout) findViewById(R.id.linear_network);
+        loadList = (LoadMoreListView) findViewById(R.id.news_list);
 //        linearProgress = (LinearLayout) findViewById(R.id.linear_progress);
         setReloadBtn();
         
@@ -87,6 +89,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
         	new LoadDataTaskFirst().execute();
         }else{
         	linearNetwork.setVisibility(View.VISIBLE);
+        	loadList.setVisibility(View.GONE);
         }
         
         setAdAdwhirl();
@@ -99,7 +102,6 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 		btnReload.setOnClickListener(new OnClickListener(){  
             public void onClick(View v) {
             	if(isOnline()){
-	            	linearNetwork.setVisibility(View.GONE);
 	            	new LoadDataTaskFirst().execute();
             	}else{
             		Toast.makeText(getApplicationContext(), "無網路連線!", Toast.LENGTH_SHORT).show();
@@ -157,11 +159,13 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 		@Override
 		protected void onPostExecute(Void result) {
 			
-			setList();
-			
-//		    if(linearProgress.getVisibility() == View.VISIBLE){
-//		    	linearProgress.setVisibility(View.GONE);
-//		    }
+			if(myNewsArray !=null){
+				linearNetwork.setVisibility(View.GONE);
+				setList();
+			}else{
+				linearNetwork.setVisibility(View.VISIBLE);
+				loadList.setVisibility(View.GONE);
+			}
 			
 			if(progressDialog.isShowing()){
 		    	progressDialog.dismiss();
@@ -237,7 +241,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 				pageNum = pageNum + 1;
 				ArrayList<News> addArray = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
 				
-				if(addArray.size()==0){
+				if(addArray.size()==0 || addArray == null){
 					loadOrNot = false;
 					pageNum = pageNum -1;			
 				}else{			
@@ -327,12 +331,16 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 	}
     
     @Override
-    public void  onBackPressed  () {  
-	    if(progressDialog.isShowing()){
-	    	progressDialog.dismiss();
-	    }else{
-	    	finish();
-	    }     
+    public void  onBackPressed  () {
+    	if (progressDialog != null){
+		    if(progressDialog.isShowing()){
+		    	progressDialog.dismiss();
+		    }else{
+		    	finish();
+		    }     
+    	}else{
+    		finish();
+    	}
     }
     
 }
