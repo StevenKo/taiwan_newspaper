@@ -6,18 +6,38 @@
     android:gravity="center_horizontal"
     >
     
-     <TextView android:id="@+id/text_category"
+    
+    
+    <LinearLayout android:id="@+id/linear_category"
+	   android:layout_width="fill_parent"
+       android:layout_height="0dp"
+       android:layout_weight="2"
+       android:background="@drawable/banner_apple"
+       android:gravity="center"
+	    >
+	    <TextView android:id="@+id/text_category"
+	   android:layout_width="150dp"
+       android:layout_height="fill_parent"
+       android:gravity="center_vertical"
+       android:layout_marginLeft="150dp"
+       android:textColor="#FFFFFF"
+       />
+	</LinearLayout>
+    
+    
+    
+    <!--  <TextView android:id="@+id/text_category"
         android:layout_width="fill_parent"
         android:layout_height="0dp"
         android:text="即時新聞"
         android:gravity="center"
-        android:paddingLeft="40dp"
+        android:paddingLeft="50dp"
         android:background="@drawable/banner_apple"
         android:textColor="#FFFFFF"
         android:textSize="15dp"
         android:paddingTop="3dp"
         android:layout_weight="2"
-        />
+        /> -->
     
     <!-- <LinearLayout android:id="@+id/linear_progress"
         android:layout_width="fill_parent"

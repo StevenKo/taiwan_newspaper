@@ -183,12 +183,13 @@ public class PageEconomicActivity extends Activity {
             super.onPostExecute(result);
 //          progressDialog.dismiss();
             if(myPromotionArray != null){
-            	if(myPromotionArray.size() <= 1){
-            		setGalleryUI();
-            	}else{
-            		Toast.makeText(getApplicationContext(), "資料整理中!", Toast.LENGTH_SHORT).show();
-                	linearNetwork.setVisibility(View.VISIBLE);
-            	}
+            	setGalleryUI();
+//            	if(myPromotionArray.size() <= 1){
+//            		setGalleryUI();
+//            	}else{
+//            		Toast.makeText(getApplicationContext(), "資料整理中!", Toast.LENGTH_SHORT).show();
+//                	linearNetwork.setVisibility(View.VISIBLE);
+//            	}
             }else{
             	Toast.makeText(getApplicationContext(), "無網路連線!", Toast.LENGTH_SHORT).show();
             	linearNetwork.setVisibility(View.VISIBLE);
@@ -203,7 +204,15 @@ public class PageEconomicActivity extends Activity {
        
 
         myGallery = (Gallery) findViewById(R.id.gallery_economic);
-        myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height, mTagImageIds);
+        if (myPromotionArray.size() >1){
+        	ArrayList<News> resizePromotionArray =  new ArrayList<News>();
+        	for(int i=0; i<1; i++){
+        		resizePromotionArray.add(myPromotionArray.get(i));
+        	}
+        	myGalleryAdpter = new GalleryAdapter(this, resizePromotionArray, deviceWidth, height, mTagImageIds);
+        }else{
+        	myGalleryAdpter = new GalleryAdapter(this, myPromotionArray, deviceWidth, height, mTagImageIds);
+        }
         myGallery.setAdapter(myGalleryAdpter);
 
         mDotsLayout = (LinearLayout) findViewById(R.id.image_count);

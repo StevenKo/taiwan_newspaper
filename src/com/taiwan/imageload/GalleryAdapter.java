@@ -63,7 +63,7 @@ public class GalleryAdapter extends BaseAdapter {
         if(data.get(position).getPictures().size()>0){
         	imageLoader.DisplayImage(data.get(position).getPictures().get(0).getUrl(), image);
         }else{
-        	image.setImageResource(R.drawable.app_icon);
+        	image.setImageResource(R.drawable.app_icon250);
         }
         
 //        try{

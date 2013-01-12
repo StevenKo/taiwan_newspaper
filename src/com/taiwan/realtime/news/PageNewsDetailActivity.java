@@ -59,6 +59,7 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 	private int categoryInt;
 	private int pageNum;
 	private int contentTextSize;
+	private LinearLayout titleLayout;
 	
 	private ArrayList<News> newCategoryNews;
 	
@@ -69,6 +70,7 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_news_detail);
         textNewsSource = (TextView) findViewById (R.id.text_news_source);
+        titleLayout = (LinearLayout) findViewById (R.id.linear_source);
         
         if(isOnline()){    
 	        myBundle = this.getIntent().getExtras(); 
@@ -108,15 +110,15 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
     
     private void changeTitleBanner() {
 		if(sourceInt == 1){
-			textNewsSource.setBackgroundResource(R.drawable.banner_apple);
+			titleLayout.setBackgroundResource(R.drawable.banner_apple);
 		}else if(sourceInt == 2){
-			textNewsSource.setBackgroundResource(R.drawable.banner_free);
+			titleLayout.setBackgroundResource(R.drawable.banner_free);
 		}else if(sourceInt == 3){
-			textNewsSource.setBackgroundResource(R.drawable.banner_uno);
+			titleLayout.setBackgroundResource(R.drawable.banner_uno);
 		}else if(sourceInt == 4){
-			textNewsSource.setBackgroundResource(R.drawable.banner_chinatimes);
+			titleLayout.setBackgroundResource(R.drawable.banner_chinatimes);
 		}else if(sourceInt == 5){
-			textNewsSource.setBackgroundResource(R.drawable.banner_eco);
+			titleLayout.setBackgroundResource(R.drawable.banner_eco);
 		}
 		
 	}

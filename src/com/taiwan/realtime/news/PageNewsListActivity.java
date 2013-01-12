@@ -57,13 +57,15 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 	private LoadMoreListView    loadList;
     private Button              btnReload;
 //    private LinearLayout        linearProgress;
-	
+	private LinearLayout linearCategory;
+    
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.page_news_list);
         textCategory = (TextView) findViewById(R.id.text_category);
         linearNetwork = (LinearLayout) findViewById(R.id.linear_network);
+        linearCategory = (LinearLayout) findViewById(R.id.linear_category);
         loadList = (LoadMoreListView) findViewById(R.id.news_list);
 //        linearProgress = (LinearLayout) findViewById(R.id.linear_progress);
         setReloadBtn();
@@ -112,15 +114,15 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
     
     private void changeTitleBanner() {
 		if(sourceInt == 1){
-			textCategory.setBackgroundResource(R.drawable.banner_apple);
+			linearCategory.setBackgroundResource(R.drawable.banner_apple);
 		}else if(sourceInt == 2){
-			textCategory.setBackgroundResource(R.drawable.banner_free);
+			linearCategory.setBackgroundResource(R.drawable.banner_free);
 		}else if(sourceInt == 3){
-			textCategory.setBackgroundResource(R.drawable.banner_uno);
+			linearCategory.setBackgroundResource(R.drawable.banner_uno);
 		}else if(sourceInt == 4){
-			textCategory.setBackgroundResource(R.drawable.banner_chinatimes);
+			linearCategory.setBackgroundResource(R.drawable.banner_chinatimes);
 		}else if(sourceInt == 5){
-			textCategory.setBackgroundResource(R.drawable.banner_eco);
+			linearCategory.setBackgroundResource(R.drawable.banner_eco);
 		}
 		
 	}
