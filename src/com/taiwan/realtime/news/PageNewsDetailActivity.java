@@ -9,6 +9,7 @@ import com.adwhirl.AdWhirlLayout.AdWhirlInterface;
 import com.google.ads.AdView;
 import com.google.analytics.tracking.android.EasyTracker;
 import com.taiwan.imageload.ImageLoader;
+import com.taiwan.imageload.ImageLoader2;
 import com.taiwan.news.api.NewsAPI;
 import com.taiwan.news.entity.News;
 import com.vpon.adon.android.VponDestroy;
@@ -19,9 +20,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.Animation;
 import android.widget.Button;
@@ -43,7 +47,7 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 	private TextView textNewsDatetime;
 	
 	private ScrollView newsScrollView;
-	private ImageLoader imageLoader;
+	private ImageLoader2 imageLoader;
 	private LinearLayout newsDetailImages;
 	
 	private News thisNews;
@@ -58,7 +62,7 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 	private int sourceInt;
 	private int categoryInt;
 	private int pageNum;
-	private int contentTextSize;
+//	private int contentTextSize;
 	private LinearLayout titleLayout;
 	
 	private ArrayList<News> newCategoryNews;
@@ -81,10 +85,10 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 	        pageNum = myBundle.getInt("PageNum");
 	        
 	        changeTitleBanner();
-	        contentTextSize = dip2px(this, 10);
+//	        contentTextSize = dip2px(this, 10);
 	        pourNewsIDs();
 	        
-	        if(newsIDs.length == 1){
+	        if(newsIDsArray.size() == 1){
 	        	new loadNewsIDsTask().execute();
 	        }
 	        
@@ -304,7 +308,11 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 		protected Void doInBackground(Void... params) {
 			if(!LoadingOrNot){
 				LoadingOrNot = true;
-				pageNum = pageNum+1;
+				if(newsIDsArray.size() != 1){
+					pageNum = pageNum+1;
+				}else{
+				  
+				}
 				newCategoryNews = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
 			}
 			return null;
@@ -317,9 +325,15 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
 					LoadOrNot = false;
 				}else{
 					
-					for(int i= 0 ; i< newCategoryNews.size(); i++){
-						newsIDsArray.add(newCategoryNews.get(i).getId()); //error at here
-					}			
+					if(newsIDsArray.size()==1){
+						for(int i= 1 ; i< newCategoryNews.size(); i++){
+							newsIDsArray.add(newCategoryNews.get(i).getId()); //if newsIDsArray only one, skip one for promo news
+						}
+					}else{
+						for(int i= 0 ; i< newCategoryNews.size(); i++){
+							newsIDsArray.add(newCategoryNews.get(i).getId()); //if newsIDsArray more than one, do normal
+						}
+					}
 				}
 				LoadingOrNot = false;
 			}
@@ -333,13 +347,34 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
     private void setUIs() {
 		// TODO Auto-generated method stub
     	
-    	float scale = getResources().getDisplayMetrics().density;
-        float textSize = 1/scale *31;
-    	float dateSize = 1/scale *29;
-        
-        textNewsSource.setTextSize(textSize);
-        textNewsTitle.setTextSize(textSize);
-        textNewsDatetime.setTextSize(dateSize);
+//    	float scale = getResources().getDisplayMetrics().density;
+//    	float textSize;
+//    	float dateSize;
+//    	
+//    	Display display = getWindowManager().getDefaultDisplay();
+//	    DisplayMetrics outMetrics = new DisplayMetrics ();
+//	    display.getMetrics(outMetrics);
+//
+//	    float density  = getResources().getDisplayMetrics().density;
+//	    float dpHeight = outMetrics.heightPixels / density;
+//	    float dpWidth  = outMetrics.widthPixels / density;
+//	    
+//	    if (dpWidth > 400){
+//	    	textSize = 1/scale *31;
+//	    	dateSize = 1/scale *29;
+//	    }else{
+//	    	textSize = 1/scale *40;
+//	    	dateSize = 1/scale *35;    	
+//	    }
+    	
+    	Display display = getWindowManager().getDefaultDisplay(); 
+    	int width = display.getWidth();  // deprecated
+    	int height = display.getHeight();  // deprecated
+    	
+    	
+        textNewsSource.setTextSize(getResources().getDimension(R.dimen.text_size));
+        textNewsTitle.setTextSize(getResources().getDimension(R.dimen.text_size));
+        textNewsDatetime.setTextSize(getResources().getDimension(R.dimen.text_size));
         
     	textNewsSource.setText(thisNews.getCategoryName());
     	textNewsTitle.setText(thisNews.getTitle());
@@ -356,21 +391,22 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
     	
     	textNewsContent.setLayoutParams(params);
     	textNewsContent.setTextColor(getResources().getColor(R.color.news_detail_content));
-    	textNewsContent.setTextSize(dateSize);
+    	textNewsContent.setTextSize(getResources().getDimension(R.dimen.text_size));
     	textNewsContent.setText(thisNews.getContent());
     	
     	if (thisNews.getPictures().size()>0){
     		
-    		imageLoader = new ImageLoader(PageNewsDetailActivity.this, 150);
+    		imageLoader = new ImageLoader2(PageNewsDetailActivity.this, 150);
     		
     		for(int i=0; i< thisNews.getPictures().size(); i++){
     			
     			ImageView iv = new ImageView(this);
     			newsDetailImages.addView(iv);
-    			LinearLayout.LayoutParams imageParams = (LinearLayout.LayoutParams)iv.getLayoutParams();
-    			imageParams.setMargins(5, 5, 5, 5);
-    			iv.setLayoutParams(imageParams);
-    			imageLoader.DisplayImage(thisNews.getPictures().get(i).getUrl(), iv);		
+//    			LinearLayout.LayoutParams imageParams = new LinearLayout.LayoutParams(width/2, ViewGroup.LayoutParams.WRAP_CONTENT);
+//    			LinearLayout.LayoutParams imageParams = (LinearLayout.LayoutParams)iv.getLayoutParams();
+//    			imageParams.setMargins(5, 5, 5, 5);
+//    			iv.setLayoutParams(imageParams);
+    			imageLoader.DisplayImage(thisNews.getPictures().get(i).getUrl(), iv, width/5*3);		
     			
     			TextView textImage = new TextView(this);
     			newsDetailImages.addView(textImage);
@@ -379,7 +415,7 @@ public class PageNewsDetailActivity extends Activity implements AdWhirlInterface
     			imageTextParams.setMargins(5, 5, 5, 5);
     			textImage.setGravity(Gravity.CENTER);
     	    	textNewsContent.setLayoutParams(imageTextParams);
-    	    	textImage.setTextSize(dateSize);
+    	    	textImage.setTextSize(getResources().getDimension(R.dimen.text_size));
     	    	textImage.setTextColor(android.graphics.Color.GRAY);
     	    	textImage.setText(thisNews.getPictures().get(i).getIntro());
     				

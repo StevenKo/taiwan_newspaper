@@ -3,7 +3,7 @@
     <color name="main_color_yellow">#f6c737</color>
     <color name="main_color_grey_dark">#2a2723</color>
     
-    <color name="news_detail_content">#707070</color>
+    <color name="news_detail_content">#595959</color>
     
     <!-- Add for Tab -->
     <color name="tab_press_bg_light">#dcba02</color>
