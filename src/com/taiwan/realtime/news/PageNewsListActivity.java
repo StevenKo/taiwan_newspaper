@@ -58,6 +58,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
     private Button              btnReload;
 //    private LinearLayout        linearProgress;
 	private LinearLayout linearCategory;
+	private Boolean netWork=true ;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -83,18 +84,19 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
         
         changeTitleBanner();
         
+//      linearNetwork.setVisibility(View.VISIBLE);
+//    	loadList.setVisibility(View.GONE);
         
-        if(isOnline()){
-//        	linearProgress.setVisibility(View.VISIBLE);
+       if(isOnline()){
         	 progressDialog = ProgressDialog.show(PageNewsListActivity.this, null, null);
              progressDialog.setCancelable(true);
-        	new LoadDataTaskFirst().execute();
+             new LoadDataTaskFirst().execute();
         }else{
         	linearNetwork.setVisibility(View.VISIBLE);
         	loadList.setVisibility(View.GONE);
         }
         
-        setAdAdwhirl();
+       	setAdAdwhirl();
         
    	}
     
@@ -104,6 +106,7 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 		btnReload.setOnClickListener(new OnClickListener(){  
             public void onClick(View v) {
             	if(isOnline()){
+            		progressDialog = ProgressDialog.show(PageNewsListActivity.this, null, null);
 	            	new LoadDataTaskFirst().execute();
             	}else{
             		Toast.makeText(getApplicationContext(), "無網路連線!", Toast.LENGTH_SHORT).show();
@@ -162,7 +165,9 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 		protected void onPostExecute(Void result) {
 			
 			if(myNewsArray !=null){
+				netWork =true;
 				linearNetwork.setVisibility(View.GONE);
+				loadList.setVisibility(View.VISIBLE);
 				setList();
 			}else{
 				linearNetwork.setVisibility(View.VISIBLE);
@@ -243,12 +248,17 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 				pageNum = pageNum + 1;
 				ArrayList<News> addArray = NewsAPI.getCateroyNews(sourceInt, categoryInt, pageNum);
 				
-				if(addArray.size()==0 || addArray == null){
-					loadOrNot = false;
-					pageNum = pageNum -1;			
-				}else{			
-					for (int i = 0; i < addArray.size(); i++){
-						myNewsArray.add(addArray.get(i));
+				if(addArray == null){
+					netWork = false;
+				}else{
+					netWork =true;
+					if(addArray.size()==0){
+						loadOrNot = false;
+						pageNum = pageNum -1;			
+					}else{			
+						for (int i = 0; i < addArray.size(); i++){
+							myNewsArray.add(addArray.get(i));
+						}
 					}
 				}
 			}
@@ -259,15 +269,21 @@ public class PageNewsListActivity extends Activity implements AdWhirlInterface{
 
 		@Override
 		protected void onPostExecute(Void result) {
-
-			if(!loadOrNot && first){
-				Toast.makeText(getApplicationContext(), "無下一則",Toast.LENGTH_SHORT).show();
-				first = false; // toast only one times
+			if(netWork){
+				if(!loadOrNot && first){
+					Toast.makeText(getApplicationContext(), "無下一則",Toast.LENGTH_SHORT).show();
+					first = false; // toast only one times
+				}
+				// We need notify the adapter that the data have been changed
+				myListNewsAdapter.notifyDataSetChanged();
+				// Call onLoadMoreComplete when the LoadMore task, has finished
+				myList.onLoadMoreComplete();
+			}else{
+				Toast.makeText(getApplicationContext(), "無網路連線!", Toast.LENGTH_SHORT).show();
+				linearNetwork.setVisibility(View.VISIBLE);
+				loadList.setVisibility(View.GONE);
+				myNewsArray.clear();
 			}
-			// We need notify the adapter that the data have been changed
-			myListNewsAdapter.notifyDataSetChanged();
-			// Call onLoadMoreComplete when the LoadMore task, has finished
-			myList.onLoadMoreComplete();
 			
 			super.onPostExecute(result);
 		}
